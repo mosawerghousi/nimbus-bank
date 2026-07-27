@@ -1,0 +1,26 @@
+/// Spacing scale based on 4pt grid. Shared across every kit in this
+/// workspace so internal proportions stay consistent from app to app.
+class AppSpacing {
+  AppSpacing._();
+
+  static const double xxs = 4;
+  static const double xs = 8;
+  static const double sm = 12;
+  static const double md = 16;
+  static const double lg = 20;
+  static const double xl = 24;
+  static const double xxl = 32;
+  static const double xxxl = 40;
+  static const double huge = 56;
+
+  // Radii
+  static const double radiusXs = 8;
+  static const double radiusSm = 12;
+  static const double radiusMd = 16;
+  static const double radiusLg = 20;
+  static const double radiusXl = 28;
+  static const double radiusFull = 999;
+
+  // Page padding
+  static const double pageHPadding = 24;
+}
