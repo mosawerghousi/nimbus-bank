@@ -9,6 +9,7 @@ import '../../../../core/widgets/network_hero_image.dart';
 import '../../../../core/widgets/section_header.dart';
 import '../providers/bank_providers.dart';
 import '../widgets/account_carousel_card.dart';
+import '../widgets/more_actions_sheet.dart';
 import '../widgets/quick_action_button.dart';
 import '../widgets/spend_chart.dart';
 import '../widgets/transaction_detail_sheet.dart';
@@ -189,17 +190,17 @@ class _HomePageState extends ConsumerState<HomePage> {
                   QuickActionButton(
                     icon: Icons.south_west_rounded,
                     label: 'Request',
-                    onTap: () => _comingSoon(context, 'Request money'),
+                    onTap: () => context.push('/request'),
                   ),
                   QuickActionButton(
                     icon: Icons.add_rounded,
                     label: 'Top up',
-                    onTap: () => _comingSoon(context, 'Top up'),
+                    onTap: () => context.push('/topup'),
                   ),
                   QuickActionButton(
                     icon: Icons.grid_view_rounded,
                     label: 'More',
-                    onTap: () => _comingSoon(context, 'More actions'),
+                    onTap: () => MoreActionsSheet.show(context),
                   ),
                 ],
               ),
@@ -255,21 +256,6 @@ class _HomePageState extends ConsumerState<HomePage> {
           ),
           const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.huge)),
         ],
-      ),
-    );
-  }
-
-  void _comingSoon(BuildContext context, String feature) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: context.colors.surfaceElevated,
-        behavior: SnackBarBehavior.floating,
-        content: Text(
-          '$feature is coming soon.',
-          style: AppTextStyles.bodyMedium.copyWith(
-            color: context.colors.textPrimary,
-          ),
-        ),
       ),
     );
   }

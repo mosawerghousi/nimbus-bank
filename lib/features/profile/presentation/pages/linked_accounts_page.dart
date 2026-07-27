@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/extensions/context_extensions.dart';
@@ -8,6 +9,7 @@ import '../../../../app/theme/app_text_styles.dart';
 import '../../../../core/widgets/primary_button.dart';
 import '../../../../core/widgets/sub_page_scaffold.dart';
 import '../../../home/presentation/providers/bank_providers.dart';
+import '../providers/external_accounts_providers.dart';
 
 class LinkedAccountsPage extends ConsumerWidget {
   const LinkedAccountsPage({super.key});
@@ -15,6 +17,7 @@ class LinkedAccountsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final accounts = ref.watch(accountsProvider);
+    final externalAccounts = ref.watch(externalAccountsProvider);
     final currency = NumberFormat.currency(locale: 'en_US', symbol: '\$');
 
     return SubPageScaffold(
@@ -24,20 +27,7 @@ class LinkedAccountsPage extends ConsumerWidget {
       bottom: PrimaryButton(
         label: 'Link a new bank',
         icon: Icons.add_link_rounded,
-        onPressed: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              backgroundColor: context.colors.surfaceElevated,
-              behavior: SnackBarBehavior.floating,
-              content: Text(
-                'Connecting outside banks is coming soon.',
-                style: AppTextStyles.bodyMedium.copyWith(
-                  color: context.colors.textPrimary,
-                ),
-              ),
-            ),
-          );
-        },
+        onPressed: () => context.push('/profile/linked-accounts/connect'),
       ),
       children: [
         Text('NIMBUS ACCOUNTS', style: AppTextStyles.overline),
@@ -90,8 +80,9 @@ class LinkedAccountsPage extends ConsumerWidget {
         const SizedBox(height: AppSpacing.xl),
         Text('EXTERNAL BANKS', style: AppTextStyles.overline),
         const SizedBox(height: AppSpacing.sm),
-        _ExternalTile(name: 'Chase Total Checking', masked: '•••• 5511'),
-        _ExternalTile(name: 'Ally Online Savings', masked: '•••• 8820'),
+        ...externalAccounts.map(
+          (a) => _ExternalTile(name: a.name, masked: a.maskedNumber),
+        ),
       ],
     );
   }

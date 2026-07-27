@@ -3,18 +3,27 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/auth/presentation/pages/register_page.dart';
+import '../../features/cards/presentation/pages/add_card_page.dart';
 import '../../features/cards/presentation/pages/card_detail_page.dart';
 import '../../features/cards/presentation/pages/cards_page.dart';
+import '../../features/exchange/presentation/pages/exchange_page.dart';
 import '../../features/home/presentation/pages/home_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../../features/onboarding/presentation/pages/splash_page.dart';
+import '../../features/profile/presentation/pages/connect_bank_page.dart';
 import '../../features/profile/presentation/pages/help_page.dart';
 import '../../features/profile/presentation/pages/linked_accounts_page.dart';
 import '../../features/profile/presentation/pages/notifications_page.dart';
 import '../../features/profile/presentation/pages/personal_info_page.dart';
 import '../../features/profile/presentation/pages/profile_page.dart';
 import '../../features/profile/presentation/pages/security_page.dart';
+import '../../features/refer/presentation/pages/refer_page.dart';
+import '../../features/statements/presentation/pages/statements_page.dart';
+import '../../features/topup/presentation/pages/topup_page.dart';
+import '../../features/topup/presentation/pages/topup_success_page.dart';
 import '../../features/transactions/presentation/pages/transactions_page.dart';
+import '../../features/transfer/presentation/pages/request_page.dart';
+import '../../features/transfer/presentation/pages/request_success_page.dart';
 import '../../features/transfer/presentation/pages/transfer_page.dart';
 import '../../features/transfer/presentation/pages/transfer_review_page.dart';
 import '../../features/transfer/presentation/pages/transfer_success_page.dart';
@@ -129,6 +138,70 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       parentNavigatorKey: _rootNavKey,
+      path: '/request',
+      pageBuilder: (context, state) => _slideUpPage(
+        key: state.pageKey,
+        child: const RequestPage(),
+      ),
+    ),
+    GoRoute(
+      parentNavigatorKey: _rootNavKey,
+      path: '/request/success',
+      pageBuilder: (context, state) => _slideUpPage(
+        key: state.pageKey,
+        child: const RequestSuccessPage(),
+      ),
+    ),
+    GoRoute(
+      parentNavigatorKey: _rootNavKey,
+      path: '/topup',
+      pageBuilder: (context, state) => _slideUpPage(
+        key: state.pageKey,
+        child: const TopUpPage(),
+      ),
+    ),
+    GoRoute(
+      parentNavigatorKey: _rootNavKey,
+      path: '/topup/success',
+      pageBuilder: (context, state) => _slideUpPage(
+        key: state.pageKey,
+        child: const TopUpSuccessPage(),
+      ),
+    ),
+    GoRoute(
+      parentNavigatorKey: _rootNavKey,
+      path: '/statements',
+      pageBuilder: (context, state) => _slideUpPage(
+        key: state.pageKey,
+        child: const StatementsPage(),
+      ),
+    ),
+    GoRoute(
+      parentNavigatorKey: _rootNavKey,
+      path: '/exchange',
+      pageBuilder: (context, state) => _slideUpPage(
+        key: state.pageKey,
+        child: const ExchangePage(),
+      ),
+    ),
+    GoRoute(
+      parentNavigatorKey: _rootNavKey,
+      path: '/refer',
+      pageBuilder: (context, state) => _slideUpPage(
+        key: state.pageKey,
+        child: const ReferPage(),
+      ),
+    ),
+    GoRoute(
+      parentNavigatorKey: _rootNavKey,
+      path: '/cards/new',
+      pageBuilder: (context, state) => _slideUpPage(
+        key: state.pageKey,
+        child: const AddCardPage(),
+      ),
+    ),
+    GoRoute(
+      parentNavigatorKey: _rootNavKey,
       path: '/profile/personal-info',
       pageBuilder: (context, state) => _slideUpPage(
         key: state.pageKey,
@@ -157,6 +230,14 @@ final appRouter = GoRouter(
       pageBuilder: (context, state) => _slideUpPage(
         key: state.pageKey,
         child: const LinkedAccountsPage(),
+      ),
+    ),
+    GoRoute(
+      parentNavigatorKey: _rootNavKey,
+      path: '/profile/linked-accounts/connect',
+      pageBuilder: (context, state) => _slideUpPage(
+        key: state.pageKey,
+        child: const ConnectBankPage(),
       ),
     ),
     GoRoute(

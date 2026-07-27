@@ -54,20 +54,7 @@ class CardsPage extends ConsumerWidget {
             label: 'Add a new card',
             icon: Icons.add_rounded,
             variant: PrimaryButtonVariant.ghost,
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  backgroundColor: context.colors.surfaceElevated,
-                  behavior: SnackBarBehavior.floating,
-                  content: Text(
-                    'Ordering new cards is coming soon.',
-                    style: AppTextStyles.bodyMedium.copyWith(
-                      color: context.colors.textPrimary,
-                    ),
-                  ),
-                ),
-              );
-            },
+            onPressed: () => context.push('/cards/new'),
           ),
         ],
       ),

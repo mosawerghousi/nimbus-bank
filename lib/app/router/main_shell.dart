@@ -13,7 +13,7 @@ class MainShell extends StatelessWidget {
   static const _items = <_NavItem>[
     _NavItem(icon: Icons.home_rounded, label: 'Home'),
     _NavItem(icon: Icons.credit_card_rounded, label: 'Cards'),
-    _NavItem(icon: Icons.receipt_long_rounded, label: 'Transactions'),
+    _NavItem(icon: Icons.receipt_long_rounded, label: 'Activity'),
     _NavItem(icon: Icons.person_rounded, label: 'Profile'),
   ];
 
@@ -72,6 +72,7 @@ class MainShell extends StatelessWidget {
                         gradient: active ? context.colors.primaryGradient : null,
                         borderRadius: BorderRadius.circular(AppSpacing.radiusFull),
                       ),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -84,11 +85,16 @@ class MainShell extends StatelessWidget {
                           ),
                           if (active) ...[
                             const SizedBox(width: 6),
-                            Text(
-                              item.label,
-                              style: AppTextStyles.labelMedium.copyWith(
-                                color: context.colors.textInverse,
-                                fontWeight: FontWeight.w600,
+                            Flexible(
+                              child: Text(
+                                item.label,
+                                maxLines: 1,
+                                softWrap: false,
+                                overflow: TextOverflow.fade,
+                                style: AppTextStyles.labelMedium.copyWith(
+                                  color: context.colors.textInverse,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
                           ],

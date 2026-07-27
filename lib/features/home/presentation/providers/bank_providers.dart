@@ -12,17 +12,73 @@ final bankRepositoryProvider = Provider<MockBankRepository>((ref) {
   return const MockBankRepository();
 });
 
-final userProvider = Provider<UserProfile>((ref) {
-  return ref.watch(bankRepositoryProvider).user();
-});
+/// The signed-in member's profile. A [Notifier] (rather than a plain
+/// derived [Provider]) since Personal info lets the user edit individual
+/// fields — [UserNotifier.updateField] patches just the one field that was
+/// edited and leaves the rest of the mock profile untouched.
+class UserNotifier extends Notifier<UserProfile> {
+  @override
+  UserProfile build() => ref.watch(bankRepositoryProvider).user();
 
-final accountsProvider = Provider<List<Account>>((ref) {
-  return ref.watch(bankRepositoryProvider).accounts();
-});
+  void updateField({
+    String? name,
+    String? email,
+    String? phone,
+    String? address,
+    String? dateOfBirth,
+  }) {
+    state = UserProfile(
+      name: name ?? state.name,
+      email: email ?? state.email,
+      phone: phone ?? state.phone,
+      avatarUrl: state.avatarUrl,
+      address: address ?? state.address,
+      dateOfBirth: dateOfBirth ?? state.dateOfBirth,
+    );
+  }
+}
 
-final cardsProvider = Provider<List<BankCard>>((ref) {
-  return ref.watch(bankRepositoryProvider).cards();
-});
+final userProvider = NotifierProvider<UserNotifier, UserProfile>(UserNotifier.new);
+
+/// The member's held-away accounts. A [Notifier] so the Top up flow can
+/// credit a real balance onto one of them.
+class AccountsNotifier extends Notifier<List<Account>> {
+  @override
+  List<Account> build() => ref.watch(bankRepositoryProvider).accounts();
+
+  void topUp(String accountId, double amount) {
+    state = [
+      for (final a in state)
+        if (a.id == accountId)
+          Account(
+            id: a.id,
+            name: a.name,
+            type: a.type,
+            balance: a.balance + amount,
+            currency: a.currency,
+            accountNumber: a.accountNumber,
+            colorKey: a.colorKey,
+          )
+        else
+          a,
+    ];
+  }
+}
+
+final accountsProvider =
+    NotifierProvider<AccountsNotifier, List<Account>>(AccountsNotifier.new);
+
+/// The member's physical/virtual cards. A [Notifier] so "Add a new card"
+/// can append a freshly-issued card onto the wallet.
+class CardsNotifier extends Notifier<List<BankCard>> {
+  @override
+  List<BankCard> build() => ref.watch(bankRepositoryProvider).cards();
+
+  void addCard(BankCard card) => state = [...state, card];
+}
+
+final cardsProvider =
+    NotifierProvider<CardsNotifier, List<BankCard>>(CardsNotifier.new);
 
 final transactionsProvider = Provider<List<Transaction>>((ref) {
   return ref.watch(bankRepositoryProvider).transactions();

@@ -25,6 +25,8 @@ class MockBankRepository {
         phone: '+1 (415) 555-0138',
         avatarUrl:
             'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?auto=format&fit=crop&w=400&q=80',
+        address: '148 Market Street, San Francisco, CA',
+        dateOfBirth: 'March 14, 1994',
       );
 
   List<Account> accounts() => const [
