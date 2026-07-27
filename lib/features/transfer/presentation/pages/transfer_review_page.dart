@@ -46,7 +46,7 @@ class TransferReviewPage extends ConsumerWidget {
                 onPressed: () => context.pop(),
               ),
               const Spacer(),
-              Text('Review transfer', style: AppTextStyles.titleMedium),
+              Text(context.strings.transferReviewTitle, style: AppTextStyles.titleMedium),
               const Spacer(),
               const SizedBox(width: 44),
             ],
@@ -65,7 +65,7 @@ class TransferReviewPage extends ConsumerWidget {
                 ),
                 const SizedBox(height: AppSpacing.md),
                 Text(
-                  'You’re sending',
+                  context.strings.transferYoureSending,
                   style: AppTextStyles.bodyMedium,
                 ),
                 const SizedBox(height: 4),
@@ -75,7 +75,7 @@ class TransferReviewPage extends ConsumerWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'to ${contact.name}',
+                  context.strings.transferToContact(contact.name),
                   style: AppTextStyles.titleMedium.copyWith(
                     color: context.colors.textSecondary,
                   ),
@@ -93,27 +93,27 @@ class TransferReviewPage extends ConsumerWidget {
             ),
             child: Column(
               children: [
-                _SummaryRow(label: 'From', value: '${fromAccount.name} · ${fromAccount.maskedNumber}'),
+                _SummaryRow(label: context.strings.transferFromLabel, value: '${fromAccount.name} · ${fromAccount.maskedNumber}'),
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
                   child: Divider(),
                 ),
-                _SummaryRow(label: 'To', value: '${contact.name} · ${contact.accountNumberMasked}'),
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
-                  child: Divider(),
-                ),
-                _SummaryRow(
-                  label: 'Note',
-                  value: draft.note.isEmpty ? 'No note added' : draft.note,
-                ),
+                _SummaryRow(label: context.strings.transferToLabel, value: '${contact.name} · ${contact.accountNumberMasked}'),
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
                   child: Divider(),
                 ),
                 _SummaryRow(
-                  label: 'Transfer fee',
-                  value: 'Free',
+                  label: context.strings.transferNoteLabel,
+                  value: draft.note.isEmpty ? context.strings.transferNoNoteAdded : draft.note,
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
+                  child: Divider(),
+                ),
+                _SummaryRow(
+                  label: context.strings.transferFeeLabel,
+                  value: context.strings.commonFree,
                   valueColor: context.colors.secondary,
                 ),
                 const Padding(
@@ -121,7 +121,7 @@ class TransferReviewPage extends ConsumerWidget {
                   child: Divider(),
                 ),
                 _SummaryRow(
-                  label: 'Total',
+                  label: context.strings.transferTotalLabel,
                   value: currency.format(draft.amount),
                   emphasised: true,
                 ),
@@ -139,7 +139,7 @@ class TransferReviewPage extends ConsumerWidget {
               const SizedBox(width: AppSpacing.xs),
               Expanded(
                 child: Text(
-                  'Instant — arrives in ${contact.name.split(' ').first}’s account immediately.',
+                  context.strings.transferInstantNote(contact.name.split(' ').first),
                   style: AppTextStyles.bodySmall,
                 ),
               ),
@@ -155,7 +155,7 @@ class TransferReviewPage extends ConsumerWidget {
           MediaQuery.viewPaddingOf(context).bottom + AppSpacing.md,
         ),
         child: PrimaryButton(
-          label: 'Confirm & Send',
+          label: context.strings.transferConfirmSend,
           icon: Icons.lock_outline_rounded,
           onPressed: () => context.push('/transfer/success'),
         ),

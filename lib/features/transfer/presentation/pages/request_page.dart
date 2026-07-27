@@ -44,12 +44,12 @@ class _RequestPageState extends ConsumerState<RequestPage> {
   void _continue() {
     final draft = ref.read(requestDraftProvider);
     if (draft.contactId == null) {
-      setState(() => _error = 'Choose who you’re requesting from.');
+      setState(() => _error = context.strings.requestChooseContact);
       return;
     }
     final amount = double.tryParse(_amountController.text) ?? 0;
     if (amount <= 0) {
-      setState(() => _error = 'Enter an amount greater than \$0.');
+      setState(() => _error = context.strings.errorAmountTooLow);
       return;
     }
     ref.read(requestDraftProvider.notifier)
@@ -83,7 +83,7 @@ class _RequestPageState extends ConsumerState<RequestPage> {
                 onPressed: () => context.pop(),
               ),
               const Spacer(),
-              Text('Request money', style: AppTextStyles.titleMedium),
+              Text(context.strings.requestMoney, style: AppTextStyles.titleMedium),
               const Spacer(),
               const SizedBox(width: 44),
             ],
@@ -93,7 +93,7 @@ class _RequestPageState extends ConsumerState<RequestPage> {
             child: Column(
               children: [
                 Text(
-                  'Amount',
+                  context.strings.commonAmount,
                   style: AppTextStyles.bodyMedium,
                 ),
                 const SizedBox(height: AppSpacing.xs),
@@ -124,14 +124,14 @@ class _RequestPageState extends ConsumerState<RequestPage> {
                   ),
                 ),
                 Text(
-                  'you’ll be notified once it’s paid',
+                  context.strings.requestNotifyHint,
                   style: AppTextStyles.bodySmall,
                 ),
               ],
             ),
           ),
           const SizedBox(height: AppSpacing.xxl),
-          Text('REQUEST FROM', style: AppTextStyles.overline),
+          Text(context.strings.requestFromEyebrow, style: AppTextStyles.overline),
           const SizedBox(height: AppSpacing.sm),
           GridView.builder(
             shrinkWrap: true,
@@ -188,7 +188,7 @@ class _RequestPageState extends ConsumerState<RequestPage> {
             },
           ),
           const SizedBox(height: AppSpacing.xl),
-          Text('NOTE (OPTIONAL)', style: AppTextStyles.overline),
+          Text(context.strings.transferNoteOptional, style: AppTextStyles.overline),
           const SizedBox(height: AppSpacing.sm),
           TextField(
             controller: _noteController,
@@ -198,7 +198,7 @@ class _RequestPageState extends ConsumerState<RequestPage> {
             decoration: InputDecoration(
               filled: true,
               fillColor: context.colors.surface,
-              hintText: 'What’s it for?',
+              hintText: context.strings.transferNoteHint,
               hintStyle: AppTextStyles.bodyMedium.copyWith(
                 color: context.colors.textMuted,
               ),
@@ -231,7 +231,7 @@ class _RequestPageState extends ConsumerState<RequestPage> {
           ],
           const SizedBox(height: AppSpacing.xl),
           PrimaryButton(
-            label: 'Request',
+            label: context.strings.requestButton,
             icon: Icons.south_west_rounded,
             onPressed: _continue,
           ),

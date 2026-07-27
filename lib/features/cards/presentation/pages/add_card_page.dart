@@ -63,13 +63,13 @@ class _AddCardPageState extends ConsumerState<AddCardPage> {
                 onPressed: () => context.pop(),
               ),
               const Spacer(),
-              Text('Add a new card', style: AppTextStyles.titleMedium),
+              Text(context.strings.cardsAddNewCard, style: AppTextStyles.titleMedium),
               const Spacer(),
               const SizedBox(width: 44),
             ],
           ),
           const SizedBox(height: AppSpacing.xl),
-          Text('CARD TYPE', style: AppTextStyles.overline),
+          Text(context.strings.cardsCardType, style: AppTextStyles.overline),
           const SizedBox(height: AppSpacing.sm),
           ...CardType.values.map((type) {
             final active = type == _type;
@@ -104,7 +104,7 @@ class _AddCardPageState extends ConsumerState<AddCardPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                type.label,
+                                context.strings.cardTypeLabel(type),
                                 style: AppTextStyles.titleSmall.copyWith(
                                   color: active
                                       ? context.colors.background
@@ -113,7 +113,7 @@ class _AddCardPageState extends ConsumerState<AddCardPage> {
                               ),
                               const SizedBox(height: 2),
                               Text(
-                                _descriptionFor(type),
+                                _descriptionFor(context, type),
                                 style: AppTextStyles.bodySmall.copyWith(
                                   color: active
                                       ? context.colors.background.withValues(alpha: 0.75)
@@ -135,7 +135,7 @@ class _AddCardPageState extends ConsumerState<AddCardPage> {
             );
           }),
           const SizedBox(height: AppSpacing.xl),
-          Text('DESIGN', style: AppTextStyles.overline),
+          Text(context.strings.cardsDesign, style: AppTextStyles.overline),
           const SizedBox(height: AppSpacing.sm),
           Row(
             children: _designKeys.map((key) {
@@ -186,7 +186,7 @@ class _AddCardPageState extends ConsumerState<AddCardPage> {
           ),
           const SizedBox(height: AppSpacing.xl),
           PrimaryButton(
-            label: 'Create card',
+            label: context.strings.cardsCreateCard,
             icon: Icons.add_rounded,
             onPressed: _create,
           ),
@@ -201,10 +201,10 @@ class _AddCardPageState extends ConsumerState<AddCardPage> {
         CardType.virtual => Icons.qr_code_2_rounded,
       };
 
-  String _descriptionFor(CardType type) => switch (type) {
-        CardType.debit => 'Spend straight from a linked account.',
-        CardType.credit => 'Build credit with a revolving line.',
-        CardType.virtual => 'A number for online purchases only.',
+  String _descriptionFor(BuildContext context, CardType type) => switch (type) {
+        CardType.debit => context.strings.cardTypeDebitDescription,
+        CardType.credit => context.strings.cardTypeCreditDescription,
+        CardType.virtual => context.strings.cardTypeVirtualDescription,
       };
 
   String _designLabel(String key) => switch (key) {

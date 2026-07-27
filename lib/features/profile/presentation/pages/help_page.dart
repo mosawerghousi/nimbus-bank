@@ -21,31 +21,12 @@ class HelpPage extends StatefulWidget {
 class _HelpPageState extends State<HelpPage> {
   int? _expanded;
 
-  static const _faqs = <_Faq>[
-    _Faq(
-      'How long do transfers take?',
-      'Transfers between Nimbus accounts and to other Nimbus members are '
-          'instant. Transfers to outside banks usually arrive within one '
-          'business day.',
-    ),
-    _Faq(
-      'How do I freeze a lost card?',
-      'Open Cards, tap the card, then tap Freeze card. Purchases and '
-          'withdrawals are blocked immediately — unfreeze it any time if you '
-          'find it again.',
-    ),
-    _Faq(
-      'Is my money insured?',
-      'Yes — balances held with our partner bank are FDIC-insured up to the '
-          'standard coverage limit, the same as a traditional bank account.',
-    ),
-    _Faq(
-      'How do I dispute a transaction?',
-      'Open the transaction from your history and tap Report an issue, or '
-          'contact support below. We’ll investigate and follow up within 2 '
-          'business days.',
-    ),
-  ];
+  List<_Faq> _faqs(BuildContext context) => [
+        _Faq(context.strings.helpFaq1Q, context.strings.helpFaq1A),
+        _Faq(context.strings.helpFaq2Q, context.strings.helpFaq2A),
+        _Faq(context.strings.helpFaq3Q, context.strings.helpFaq3A),
+        _Faq(context.strings.helpFaq4Q, context.strings.helpFaq4A),
+      ];
 
   void _snack(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -64,15 +45,16 @@ class _HelpPageState extends State<HelpPage> {
 
   @override
   Widget build(BuildContext context) {
+    final faqs = _faqs(context);
     return SubPageScaffold(
-      eyebrow: 'WE’RE HERE TO HELP',
-      title: 'Help & support',
-      subtitle: 'Answers to common questions, or reach a real person.',
+      eyebrow: context.strings.helpEyebrow,
+      title: context.strings.helpSupport,
+      subtitle: context.strings.helpSubtitle,
       children: [
-        Text('FREQUENTLY ASKED', style: AppTextStyles.overline),
+        Text(context.strings.helpFrequentlyAsked, style: AppTextStyles.overline),
         const SizedBox(height: AppSpacing.sm),
-        ...List.generate(_faqs.length, (i) {
-          final faq = _faqs[i];
+        ...List.generate(faqs.length, (i) {
+          final faq = faqs[i];
           final open = _expanded == i;
           return Padding(
             padding: const EdgeInsets.only(bottom: AppSpacing.xs),
@@ -122,25 +104,25 @@ class _HelpPageState extends State<HelpPage> {
           );
         }),
         const SizedBox(height: AppSpacing.xl),
-        Text('CONTACT SUPPORT', style: AppTextStyles.overline),
+        Text(context.strings.helpContactSupport, style: AppTextStyles.overline),
         const SizedBox(height: AppSpacing.sm),
         _ContactTile(
           icon: Icons.chat_bubble_outline_rounded,
-          label: 'Chat with us',
-          sublabel: 'Typically replies in a few minutes',
-          onTap: () => _snack('Connecting you to a support specialist…'),
+          label: context.strings.helpChatWithUs,
+          sublabel: context.strings.helpChatSublabel,
+          onTap: () => _snack(context.strings.helpConnectingSnack),
         ),
         _ContactTile(
           icon: Icons.call_outlined,
-          label: 'Call support',
-          sublabel: '1-800-555-0199 · 24/7',
-          onTap: () => _snack('Calling 1-800-555-0199…'),
+          label: context.strings.helpCallSupport,
+          sublabel: context.strings.helpCallSublabel,
+          onTap: () => _snack(context.strings.helpCallingSnack),
         ),
         _ContactTile(
           icon: Icons.mail_outline_rounded,
-          label: 'Email us',
+          label: context.strings.helpEmailUs,
           sublabel: 'support@nimbusmail.com',
-          onTap: () => _snack('Opening your email client…'),
+          onTap: () => _snack(context.strings.helpEmailSnack),
         ),
       ],
     );
@@ -197,10 +179,13 @@ class _ContactTile extends StatelessWidget {
                     ],
                   ),
                 ),
-                Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: 14,
-                  color: context.colors.textMuted,
+                Transform.flip(
+                  flipX: Directionality.of(context) == TextDirection.rtl,
+                  child: Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 14,
+                    color: context.colors.textMuted,
+                  ),
                 ),
               ],
             ),

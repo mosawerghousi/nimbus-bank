@@ -101,13 +101,13 @@ class BankCardTile extends StatelessWidget {
                     children: [
                       Expanded(
                         child: _CardDetail(
-                          label: 'CARDHOLDER',
+                          label: context.strings.cardCardholder,
                           value: card.holderName,
                           color: onCard,
                         ),
                       ),
                       _CardDetail(
-                        label: 'EXPIRES',
+                        label: context.strings.cardExpires,
                         value: card.expiry,
                         color: onCard,
                       ),
@@ -129,7 +129,7 @@ class BankCardTile extends StatelessWidget {
                           Icon(Icons.ac_unit_rounded, color: onCard, size: 26),
                           const SizedBox(height: 4),
                           Text(
-                            'FROZEN',
+                            context.strings.cardFrozenBadge,
                             style: AppTextStyles.overline.copyWith(
                               color: onCard,
                             ),

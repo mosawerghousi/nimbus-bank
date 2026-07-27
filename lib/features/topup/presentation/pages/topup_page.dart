@@ -54,12 +54,12 @@ class _TopUpPageState extends ConsumerState<TopUpPage> {
   void _addFunds() {
     final draft = ref.read(topUpDraftProvider);
     if (draft.toAccountId == null) {
-      setState(() => _error = 'Choose which account to add money to.');
+      setState(() => _error = context.strings.topupChooseAccount);
       return;
     }
     final amount = double.tryParse(_amountController.text) ?? 0;
     if (amount <= 0) {
-      setState(() => _error = 'Enter an amount greater than \$0.');
+      setState(() => _error = context.strings.errorAmountTooLow);
       return;
     }
     ref.read(topUpDraftProvider.notifier).setAmount(amount);
@@ -96,7 +96,7 @@ class _TopUpPageState extends ConsumerState<TopUpPage> {
                 onPressed: () => context.pop(),
               ),
               const Spacer(),
-              Text('Add money', style: AppTextStyles.titleMedium),
+              Text(context.strings.topupAddMoney, style: AppTextStyles.titleMedium),
               const Spacer(),
               const SizedBox(width: 44),
             ],
@@ -106,7 +106,7 @@ class _TopUpPageState extends ConsumerState<TopUpPage> {
             child: Column(
               children: [
                 Text(
-                  'Amount',
+                  context.strings.commonAmount,
                   style: AppTextStyles.bodyMedium,
                 ),
                 const SizedBox(height: AppSpacing.xs),
@@ -137,14 +137,14 @@ class _TopUpPageState extends ConsumerState<TopUpPage> {
                   ),
                 ),
                 Text(
-                  'into ${toAccount.name} · ${toAccount.maskedNumber}',
+                  context.strings.topupIntoAccount(toAccount.name, toAccount.maskedNumber),
                   style: AppTextStyles.bodySmall,
                 ),
               ],
             ),
           ),
           const SizedBox(height: AppSpacing.xxl),
-          Text('FROM', style: AppTextStyles.overline),
+          Text(context.strings.topupFromEyebrow, style: AppTextStyles.overline),
           const SizedBox(height: AppSpacing.sm),
           SizedBox(
             height: 44,
@@ -189,7 +189,7 @@ class _TopUpPageState extends ConsumerState<TopUpPage> {
             ),
           ),
           const SizedBox(height: AppSpacing.xxl),
-          Text('TO', style: AppTextStyles.overline),
+          Text(context.strings.topupToEyebrow, style: AppTextStyles.overline),
           const SizedBox(height: AppSpacing.sm),
           SizedBox(
             height: 44,
@@ -245,7 +245,7 @@ class _TopUpPageState extends ConsumerState<TopUpPage> {
           ],
           const SizedBox(height: AppSpacing.xl),
           PrimaryButton(
-            label: 'Add funds',
+            label: context.strings.topupAddFunds,
             icon: Icons.add_rounded,
             onPressed: _addFunds,
           ),

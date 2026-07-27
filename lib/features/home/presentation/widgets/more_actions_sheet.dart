@@ -12,12 +12,12 @@ class _MoreAction {
   final String route;
 }
 
-const _actions = [
-  _MoreAction(Icons.description_outlined, 'Statements', '/statements'),
-  _MoreAction(Icons.currency_exchange_rounded, 'Currency exchange', '/exchange'),
-  _MoreAction(Icons.card_giftcard_rounded, 'Refer a friend', '/refer'),
-  _MoreAction(Icons.support_agent_rounded, 'Help & support', '/profile/help'),
-];
+List<_MoreAction> _actions(BuildContext context) => [
+      _MoreAction(Icons.description_outlined, context.strings.moreActionsStatements, '/statements'),
+      _MoreAction(Icons.currency_exchange_rounded, context.strings.moreActionsCurrencyExchange, '/exchange'),
+      _MoreAction(Icons.card_giftcard_rounded, context.strings.moreActionsReferFriend, '/refer'),
+      _MoreAction(Icons.support_agent_rounded, context.strings.helpSupport, '/profile/help'),
+    ];
 
 /// The sheet behind the dashboard's "More" quick action — a grid of
 /// secondary money-management actions that don't warrant their own spot in
@@ -36,6 +36,7 @@ class MoreActionsSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final actions = _actions(context);
     return SafeArea(
       top: false,
       child: Container(
@@ -65,13 +66,13 @@ class MoreActionsSheet extends StatelessWidget {
             const SizedBox(height: AppSpacing.xl),
             Align(
               alignment: Alignment.centerLeft,
-              child: Text('MORE ACTIONS', style: AppTextStyles.overline),
+              child: Text(context.strings.moreActionsTitle, style: AppTextStyles.overline),
             ),
             const SizedBox(height: AppSpacing.md),
             GridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: _actions.length,
+              itemCount: actions.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 mainAxisSpacing: AppSpacing.sm,
@@ -79,7 +80,7 @@ class MoreActionsSheet extends StatelessWidget {
                 childAspectRatio: 1.7,
               ),
               itemBuilder: (context, i) {
-                final action = _actions[i];
+                final action = actions[i];
                 return Material(
                   color: context.colors.surfaceElevated,
                   borderRadius: BorderRadius.circular(AppSpacing.radiusLg),

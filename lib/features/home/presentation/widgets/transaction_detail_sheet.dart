@@ -109,13 +109,16 @@ class TransactionDetailSheet extends ConsumerWidget {
               ),
               child: Column(
                 children: [
-                  _DetailRow(label: 'Category', value: category.label),
+                  _DetailRow(
+                    label: context.strings.transactionCategory,
+                    value: context.strings.spendCategoryLabel(category.id),
+                  ),
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
                     child: Divider(),
                   ),
                   _DetailRow(
-                    label: 'Date',
+                    label: context.strings.transactionDate,
                     value: DateFormat('EEEE, MMM d · h:mm a')
                         .format(transaction.date),
                   ),
@@ -123,14 +126,14 @@ class TransactionDetailSheet extends ConsumerWidget {
                     padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
                     child: Divider(),
                   ),
-                  _DetailRow(label: 'Account', value: account.name),
+                  _DetailRow(label: context.strings.transactionAccount, value: account.name),
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
                     child: Divider(),
                   ),
                   _DetailRow(
-                    label: 'Status',
-                    value: transaction.status,
+                    label: context.strings.commonStatus,
+                    value: context.strings.transactionStatusCompleted,
                     valueColor: context.colors.secondary,
                   ),
                 ],
@@ -140,7 +143,7 @@ class TransactionDetailSheet extends ConsumerWidget {
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
               child: Text(
-                'Close',
+                context.strings.commonClose,
                 style: AppTextStyles.labelLarge.copyWith(
                   color: context.colors.textSecondary,
                 ),

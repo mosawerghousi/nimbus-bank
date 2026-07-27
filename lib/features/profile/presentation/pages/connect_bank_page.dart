@@ -87,12 +87,12 @@ class _ConnectBankPageState extends ConsumerState<ConnectBankPage> {
                 ],
               ),
               const SizedBox(height: AppSpacing.lg),
-              Text('LINK AN ACCOUNT', style: AppTextStyles.overline),
+              Text(context.strings.connectBankLinkAccount, style: AppTextStyles.overline),
               const SizedBox(height: AppSpacing.xs),
-              Text('Link a new bank', style: AppTextStyles.displayMedium),
+              Text(context.strings.connectBankTitle, style: AppTextStyles.displayMedium),
               const SizedBox(height: AppSpacing.xs),
               Text(
-                'Choose an outside bank to connect to Nimbus.',
+                context.strings.connectBankSubtitle,
                 style: AppTextStyles.bodyMedium,
               ),
               const SizedBox(height: AppSpacing.xl),
@@ -144,10 +144,13 @@ class _ConnectBankPageState extends ConsumerState<ConnectBankPage> {
                       Expanded(
                         child: Text(bank.name, style: AppTextStyles.titleSmall),
                       ),
-                      Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        size: 14,
-                        color: context.colors.textMuted,
+                      Transform.flip(
+                        flipX: Directionality.of(context) == TextDirection.rtl,
+                        child: Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          size: 14,
+                          color: context.colors.textMuted,
+                        ),
                       ),
                     ],
                   ),
@@ -164,12 +167,12 @@ class _ConnectBankPageState extends ConsumerState<ConnectBankPage> {
               CircularProgressIndicator(color: context.colors.primary),
               const SizedBox(height: AppSpacing.xl),
               Text(
-                'Connecting to ${_selected?.name}…',
+                context.strings.connectBankConnecting(_selected?.name ?? ''),
                 style: AppTextStyles.titleMedium,
               ),
               const SizedBox(height: AppSpacing.xs),
               Text(
-                'This usually takes just a moment.',
+                context.strings.connectBankTakesMoment,
                 style: AppTextStyles.bodyMedium,
               ),
             ],
@@ -201,19 +204,19 @@ class _ConnectBankPageState extends ConsumerState<ConnectBankPage> {
             ),
             const SizedBox(height: AppSpacing.xl),
             Text(
-              'Connected to ${_selected?.name}.',
+              context.strings.connectBankConnected(_selected?.name ?? ''),
               textAlign: TextAlign.center,
               style: AppTextStyles.headlineLarge,
             ),
             const SizedBox(height: AppSpacing.xs),
             Text(
-              'You’ll now see this account under external banks.',
+              context.strings.connectBankSeeUnderExternal,
               textAlign: TextAlign.center,
               style: AppTextStyles.bodyMedium,
             ),
             const Spacer(),
             PrimaryButton(
-              label: 'Done',
+              label: context.strings.commonDone,
               icon: Icons.check_rounded,
               onPressed: _finish,
             ),

@@ -35,75 +35,75 @@ class _NotificationsPageState extends State<NotificationsPage> {
   final Set<String> _dismissed = {};
   final Set<String> _readManually = {};
 
-  static const _today = <_Notification>[
-    _Notification(
-      id: 'n1',
-      kind: _NotifKind.transaction,
-      title: 'Payroll deposit received',
-      body: '\$5,200.00 from Acme Corp Payroll landed in Everyday.',
-      timeAgo: '2h ago',
-      unread: true,
-    ),
-    _Notification(
-      id: 'n2',
-      kind: _NotifKind.security,
-      title: 'New sign-in detected',
-      body: 'Your account was accessed from a new device in San Francisco.',
-      timeAgo: '5h ago',
-      unread: true,
-    ),
-    _Notification(
-      id: 'n3',
-      kind: _NotifKind.offer,
-      title: 'Savings rate increased to 4.2%',
-      body: 'Your Savings account now earns more, automatically.',
-      timeAgo: '7h ago',
-    ),
-  ];
+  List<_Notification> _today(BuildContext context) => [
+        _Notification(
+          id: 'n1',
+          kind: _NotifKind.transaction,
+          title: context.strings.notifPayrollTitle,
+          body: context.strings.notifPayrollBody,
+          timeAgo: context.strings.notifTimeAgo2h,
+          unread: true,
+        ),
+        _Notification(
+          id: 'n2',
+          kind: _NotifKind.security,
+          title: context.strings.notifSignInTitle,
+          body: context.strings.notifSignInBody,
+          timeAgo: context.strings.notifTimeAgo5h,
+          unread: true,
+        ),
+        _Notification(
+          id: 'n3',
+          kind: _NotifKind.offer,
+          title: context.strings.notifSavingsRateTitle,
+          body: context.strings.notifSavingsRateBody,
+          timeAgo: context.strings.notifTimeAgo7h,
+        ),
+      ];
 
-  static const _earlier = <_Notification>[
-    _Notification(
-      id: 'n4',
-      kind: _NotifKind.transaction,
-      title: 'Card payment declined',
-      body: 'Nimbus Violet Credit ••2290 was declined at Amazon — limit reached.',
-      timeAgo: 'Yesterday',
-    ),
-    _Notification(
-      id: 'n5',
-      kind: _NotifKind.system,
-      title: 'Statement ready',
-      body: 'Your July statement for Everyday is ready to view.',
-      timeAgo: '3 days ago',
-    ),
-    _Notification(
-      id: 'n6',
-      kind: _NotifKind.offer,
-      title: 'Refer a friend, get \$25',
-      body: 'Invite a friend to Nimbus — you both get \$25 when they sign up.',
-      timeAgo: '1 week ago',
-    ),
-  ];
+  List<_Notification> _earlier(BuildContext context) => [
+        _Notification(
+          id: 'n4',
+          kind: _NotifKind.transaction,
+          title: context.strings.notifCardDeclinedTitle,
+          body: context.strings.notifCardDeclinedBody,
+          timeAgo: context.strings.commonYesterday,
+        ),
+        _Notification(
+          id: 'n5',
+          kind: _NotifKind.system,
+          title: context.strings.notifStatementReadyTitle,
+          body: context.strings.notifStatementReadyBody,
+          timeAgo: context.strings.notifTimeAgo3d,
+        ),
+        _Notification(
+          id: 'n6',
+          kind: _NotifKind.offer,
+          title: context.strings.notifReferTitle,
+          body: context.strings.notifReferBody,
+          timeAgo: context.strings.notifTimeAgo1w,
+        ),
+      ];
 
   bool _isUnread(_Notification n) => n.unread && !_readManually.contains(n.id);
 
   @override
   Widget build(BuildContext context) {
-    final today = _today.where((n) => !_dismissed.contains(n.id)).toList();
-    final earlier = _earlier.where((n) => !_dismissed.contains(n.id)).toList();
+    final todayList = _today(context).where((n) => !_dismissed.contains(n.id)).toList();
+    final earlierList = _earlier(context).where((n) => !_dismissed.contains(n.id)).toList();
     final unreadCount =
-        today.where(_isUnread).length + earlier.where(_isUnread).length;
+        todayList.where(_isUnread).length + earlierList.where(_isUnread).length;
 
     return SubPageScaffold(
-      eyebrow: 'INBOX',
-      title: 'Notifications',
+      eyebrow: context.strings.notificationsEyebrow,
+      title: context.strings.notificationsTitle,
       subtitle: unreadCount == 0
-          ? 'You’re all caught up.'
-          : '$unreadCount unread message${unreadCount == 1 ? '' : 's'}.',
+          ? context.strings.notificationsAllCaughtUp
+          : context.strings.notificationsUnreadCount(unreadCount),
       trailing: GestureDetector(
         onTap: () {
           setState(() {
-            for (final n in [..._today, ..._earlier]) {
+            for (final n in [..._today(context), ..._earlier(context)]) {
               if (n.unread) _readManually.add(n.id);
             }
           });
@@ -119,7 +119,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
             border: Border.all(color: context.colors.border),
           ),
           child: Text(
-            'Mark all read',
+            context.strings.notificationsMarkAllRead,
             style: AppTextStyles.labelMedium.copyWith(
               color: context.colors.primary,
               fontWeight: FontWeight.w600,
@@ -128,10 +128,10 @@ class _NotificationsPageState extends State<NotificationsPage> {
         ),
       ),
       children: [
-        if (today.isNotEmpty) ...[
-          Text('Today', style: AppTextStyles.overline),
+        if (todayList.isNotEmpty) ...[
+          Text(context.strings.commonToday, style: AppTextStyles.overline),
           const SizedBox(height: AppSpacing.sm),
-          ...today.map(
+          ...todayList.map(
             (n) => Padding(
               padding: const EdgeInsets.only(bottom: AppSpacing.xs),
               child: _NotifTile(
@@ -144,10 +144,10 @@ class _NotificationsPageState extends State<NotificationsPage> {
           ),
           const SizedBox(height: AppSpacing.xl),
         ],
-        if (earlier.isNotEmpty) ...[
-          Text('Earlier', style: AppTextStyles.overline),
+        if (earlierList.isNotEmpty) ...[
+          Text(context.strings.notificationsEarlier, style: AppTextStyles.overline),
           const SizedBox(height: AppSpacing.sm),
-          ...earlier.map(
+          ...earlierList.map(
             (n) => Padding(
               padding: const EdgeInsets.only(bottom: AppSpacing.xs),
               child: _NotifTile(
@@ -159,7 +159,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
             ),
           ),
         ],
-        if (today.isEmpty && earlier.isEmpty)
+        if (todayList.isEmpty && earlierList.isEmpty)
           Container(
             padding: const EdgeInsets.symmetric(
               vertical: AppSpacing.xxl,
@@ -186,10 +186,10 @@ class _NotificationsPageState extends State<NotificationsPage> {
                   ),
                 ),
                 const SizedBox(height: AppSpacing.md),
-                Text('Nothing in the inbox', style: AppTextStyles.titleLarge),
+                Text(context.strings.notificationsEmptyTitle, style: AppTextStyles.titleLarge),
                 const SizedBox(height: AppSpacing.xs),
                 Text(
-                  'We’ll let you know when something needs your attention.',
+                  context.strings.notificationsEmptyBody,
                   textAlign: TextAlign.center,
                   style: AppTextStyles.bodyMedium,
                 ),

@@ -58,7 +58,7 @@ class TransferSuccessPage extends ConsumerWidget {
               ),
               const SizedBox(height: AppSpacing.xl),
               Text(
-                'Money sent.',
+                context.strings.transferMoneySent,
                 textAlign: TextAlign.center,
                 style: AppTextStyles.displayLarge,
               ),
@@ -66,8 +66,7 @@ class TransferSuccessPage extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
                 child: Text(
-                  '${currency.format(draft.amount)} is on its way to ${contact.name}. '
-                  'They’ll see it in their account right away.',
+                  context.strings.transferSentBody(currency.format(draft.amount), contact.name),
                   textAlign: TextAlign.center,
                   style: AppTextStyles.bodyLarge,
                 ),
@@ -86,7 +85,7 @@ class TransferSuccessPage extends ConsumerWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Amount', style: AppTextStyles.labelMedium),
+                        Text(context.strings.commonAmount, style: AppTextStyles.labelMedium),
                         const SizedBox(height: 2),
                         Text(
                           currency.format(draft.amount),
@@ -97,10 +96,10 @@ class TransferSuccessPage extends ConsumerWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text('Fee', style: AppTextStyles.labelMedium),
+                        Text(context.strings.commonFee, style: AppTextStyles.labelMedium),
                         const SizedBox(height: 2),
                         Text(
-                          'Free',
+                          context.strings.commonFree,
                           style: AppTextStyles.titleMedium.copyWith(
                             color: context.colors.secondary,
                           ),
@@ -112,7 +111,7 @@ class TransferSuccessPage extends ConsumerWidget {
               ),
               const Spacer(),
               PrimaryButton(
-                label: 'Done',
+                label: context.strings.commonDone,
                 icon: Icons.check_rounded,
                 onPressed: () => context.go('/home'),
               ),

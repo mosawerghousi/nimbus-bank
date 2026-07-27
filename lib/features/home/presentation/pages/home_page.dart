@@ -31,11 +31,11 @@ class _HomePageState extends ConsumerState<HomePage> {
     super.dispose();
   }
 
-  String get _greeting {
+  String _greeting(BuildContext context) {
     final hour = DateTime.now().hour;
-    if (hour < 12) return 'Good morning';
-    if (hour < 18) return 'Good afternoon';
-    return 'Good evening';
+    if (hour < 12) return context.strings.homeGoodMorning;
+    if (hour < 18) return context.strings.homeGoodAfternoon;
+    return context.strings.homeGoodEvening;
   }
 
   @override
@@ -74,7 +74,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('$_greeting,', style: AppTextStyles.bodyMedium),
+                        Text('${_greeting(context)},', style: AppTextStyles.bodyMedium),
                         Text(
                           user.name.split(' ').first,
                           style: AppTextStyles.headlineMedium,
@@ -183,23 +183,23 @@ class _HomePageState extends ConsumerState<HomePage> {
                 children: [
                   QuickActionButton(
                     icon: Icons.north_east_rounded,
-                    label: 'Send',
+                    label: context.strings.quickActionSend,
                     filled: true,
                     onTap: () => context.push('/transfer'),
                   ),
                   QuickActionButton(
                     icon: Icons.south_west_rounded,
-                    label: 'Request',
+                    label: context.strings.quickActionRequest,
                     onTap: () => context.push('/request'),
                   ),
                   QuickActionButton(
                     icon: Icons.add_rounded,
-                    label: 'Top up',
+                    label: context.strings.quickActionTopUp,
                     onTap: () => context.push('/topup'),
                   ),
                   QuickActionButton(
                     icon: Icons.grid_view_rounded,
-                    label: 'More',
+                    label: context.strings.quickActionMore,
                     onTap: () => MoreActionsSheet.show(context),
                   ),
                 ],
@@ -212,9 +212,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                 horizontal: AppSpacing.pageHPadding,
               ),
               child: SectionHeader(
-                eyebrow: 'THIS MONTH',
-                title: 'Spending overview',
-                actionLabel: 'Details',
+                eyebrow: context.strings.homeThisMonthEyebrow,
+                title: context.strings.homeSpendingOverview,
+                actionLabel: context.strings.homeDetails,
                 onAction: () => context.push('/transactions'),
               ),
             ),
@@ -233,9 +233,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                 horizontal: AppSpacing.pageHPadding,
               ),
               child: SectionHeader(
-                eyebrow: 'LATEST ACTIVITY',
-                title: 'Recent transactions',
-                actionLabel: 'See all',
+                eyebrow: context.strings.homeLatestActivityEyebrow,
+                title: context.strings.homeRecentTransactions,
+                actionLabel: context.strings.homeSeeAll,
                 onAction: () => context.push('/transactions'),
               ),
             ),

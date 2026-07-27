@@ -76,7 +76,7 @@ class TransactionTile extends ConsumerWidget {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      '${category.label} · ${DateFormat('MMM d').format(transaction.date)}',
+                      '${context.strings.spendCategoryLabel(category.id)} · ${DateFormat('MMM d').format(transaction.date)}',
                       style: AppTextStyles.bodySmall,
                     ),
                   ],

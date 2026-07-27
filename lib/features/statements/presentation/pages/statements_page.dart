@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' hide TextDirection;
 
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../app/theme/app_spacing.dart';
@@ -54,11 +54,11 @@ class StatementsPage extends ConsumerWidget {
     final currency = NumberFormat.currency(locale: 'en_US', symbol: '\$');
 
     return SubPageScaffold(
-      eyebrow: 'ACCOUNT ACTIVITY',
-      title: 'Statements',
-      subtitle: 'Monthly summaries of what you spent and earned.',
+      eyebrow: context.strings.statementsEyebrow,
+      title: context.strings.statementsTitle,
+      subtitle: context.strings.statementsSubtitle,
       children: [
-        Text('LAST 6 MONTHS', style: AppTextStyles.overline),
+        Text(context.strings.statementsLast6Months, style: AppTextStyles.overline),
         const SizedBox(height: AppSpacing.sm),
         ...summaries.map(
           (summary) => Padding(
@@ -101,7 +101,7 @@ class StatementsPage extends ConsumerWidget {
                             ),
                             const SizedBox(height: 2),
                             Text(
-                              '${summary.transactions.length} transactions',
+                              context.strings.statementsTransactionsCount(summary.transactions.length),
                               style: AppTextStyles.bodySmall,
                             ),
                           ],
@@ -124,10 +124,13 @@ class StatementsPage extends ConsumerWidget {
                         ],
                       ),
                       const SizedBox(width: AppSpacing.xs),
-                      Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        size: 14,
-                        color: context.colors.textMuted,
+                      Transform.flip(
+                        flipX: Directionality.of(context) == TextDirection.rtl,
+                        child: Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          size: 14,
+                          color: context.colors.textMuted,
+                        ),
                       ),
                     ],
                   ),
@@ -196,7 +199,10 @@ class StatementsPage extends ConsumerWidget {
                 ),
                 const SizedBox(height: AppSpacing.xs),
                 Text(
-                  'Spent ${currency.format(summary.spent)} · Earned ${currency.format(summary.income)}',
+                  sheetContext.strings.statementsSpentEarned(
+                    currency.format(summary.spent),
+                    currency.format(summary.income),
+                  ),
                   style: AppTextStyles.bodyMedium,
                 ),
                 const SizedBox(height: AppSpacing.xl),
@@ -204,7 +210,7 @@ class StatementsPage extends ConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
                     child: Text(
-                      'No spending recorded this month.',
+                      sheetContext.strings.statementsNoSpending,
                       style: AppTextStyles.bodyMedium,
                     ),
                   )
@@ -213,7 +219,7 @@ class StatementsPage extends ConsumerWidget {
                     children: [
                       for (final entry in entries) ...[
                         _CategoryRow(
-                          label: _categoryLabel(categories, entry.key),
+                          label: sheetContext.strings.spendCategoryLabel(entry.key),
                           colorKey: _categoryColorKey(categories, entry.key),
                           value: currency.format(entry.value),
                         ),
@@ -228,7 +234,7 @@ class StatementsPage extends ConsumerWidget {
                 TextButton(
                   onPressed: () => Navigator.of(sheetContext).pop(),
                   child: Text(
-                    'Close',
+                    sheetContext.strings.commonClose,
                     style: AppTextStyles.labelLarge.copyWith(
                       color: sheetContext.colors.textSecondary,
                     ),
@@ -240,13 +246,6 @@ class StatementsPage extends ConsumerWidget {
         );
       },
     );
-  }
-
-  String _categoryLabel(List<SpendCategory> categories, String id) {
-    for (final c in categories) {
-      if (c.id == id) return c.label;
-    }
-    return 'Other';
   }
 
   String _categoryColorKey(List<SpendCategory> categories, String id) {

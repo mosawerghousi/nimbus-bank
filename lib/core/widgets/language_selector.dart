@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../app/localization/locale_provider.dart';
 import '../../app/theme/app_spacing.dart';
 import '../../app/theme/app_text_styles.dart';
-import '../../app/theme/theme_mode_provider.dart';
 import '../extensions/context_extensions.dart';
 
-/// A three-way Light / System / Dark segmented control backed by
-/// [themeModeProvider]. Drop it into any settings/profile surface.
-class ThemeModeSelector extends ConsumerWidget {
-  const ThemeModeSelector({super.key});
+/// A two-way English / العربية segmented control backed by [localeProvider].
+/// Drop it into any settings/profile surface. Mirrors [ThemeModeSelector]'s
+/// structure exactly.
+class LanguageSelector extends ConsumerWidget {
+  const LanguageSelector({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final mode = ref.watch(themeModeProvider);
-    final notifier = ref.read(themeModeProvider.notifier);
+    final locale = ref.watch(localeProvider);
+    final notifier = ref.read(localeProvider.notifier);
 
     return Container(
       padding: const EdgeInsets.all(4),
@@ -26,22 +27,16 @@ class ThemeModeSelector extends ConsumerWidget {
       child: Row(
         children: [
           _Segment(
-            label: context.strings.themeLight,
-            icon: Icons.light_mode_outlined,
-            selected: mode == ThemeMode.light,
-            onTap: () => notifier.set(ThemeMode.light),
+            label: context.strings.languageEnglish,
+            icon: Icons.public_rounded,
+            selected: locale.languageCode == 'en',
+            onTap: () => notifier.set(const Locale('en')),
           ),
           _Segment(
-            label: context.strings.themeSystem,
-            icon: Icons.brightness_auto_outlined,
-            selected: mode == ThemeMode.system,
-            onTap: () => notifier.set(ThemeMode.system),
-          ),
-          _Segment(
-            label: context.strings.themeDark,
-            icon: Icons.dark_mode_outlined,
-            selected: mode == ThemeMode.dark,
-            onTap: () => notifier.set(ThemeMode.dark),
+            label: context.strings.languageArabic,
+            icon: Icons.translate_rounded,
+            selected: locale.languageCode == 'ar',
+            onTap: () => notifier.set(const Locale('ar')),
           ),
         ],
       ),

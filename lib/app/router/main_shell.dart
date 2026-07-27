@@ -10,12 +10,19 @@ class MainShell extends StatelessWidget {
 
   final StatefulNavigationShell navigationShell;
 
-  static const _items = <_NavItem>[
-    _NavItem(icon: Icons.home_rounded, label: 'Home'),
-    _NavItem(icon: Icons.credit_card_rounded, label: 'Cards'),
-    _NavItem(icon: Icons.receipt_long_rounded, label: 'Activity'),
-    _NavItem(icon: Icons.person_rounded, label: 'Profile'),
+  static const _icons = <IconData>[
+    Icons.home_rounded,
+    Icons.credit_card_rounded,
+    Icons.receipt_long_rounded,
+    Icons.person_rounded,
   ];
+
+  List<String> _labels(BuildContext context) => [
+        context.strings.navHome,
+        context.strings.navCards,
+        context.strings.navActivity,
+        context.strings.navProfile,
+      ];
 
   void _onTap(int index) {
     navigationShell.goBranch(
@@ -26,6 +33,7 @@ class MainShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final labels = _labels(context);
     return Scaffold(
       extendBody: true,
       backgroundColor: context.colors.background,
@@ -57,8 +65,9 @@ class MainShell extends StatelessWidget {
               ],
             ),
             child: Row(
-              children: List.generate(_items.length, (i) {
-                final item = _items[i];
+              children: List.generate(_icons.length, (i) {
+                final icon = _icons[i];
+                final label = labels[i];
                 final active = i == navigationShell.currentIndex;
                 return Expanded(
                   child: GestureDetector(
@@ -77,7 +86,7 @@ class MainShell extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
-                            item.icon,
+                            icon,
                             color: active
                                 ? context.colors.textInverse
                                 : context.colors.textSecondary,
@@ -87,7 +96,7 @@ class MainShell extends StatelessWidget {
                             const SizedBox(width: 6),
                             Flexible(
                               child: Text(
-                                item.label,
+                                label,
                                 maxLines: 1,
                                 softWrap: false,
                                 overflow: TextOverflow.fade,
@@ -110,10 +119,4 @@ class MainShell extends StatelessWidget {
       ),
     );
   }
-}
-
-class _NavItem {
-  const _NavItem({required this.icon, required this.label});
-  final IconData icon;
-  final String label;
 }

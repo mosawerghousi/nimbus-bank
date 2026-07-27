@@ -91,10 +91,10 @@ class _LoginPageState extends State<LoginPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('WELCOME BACK', style: AppTextStyles.overline),
+                        Text(context.strings.authWelcomeBack, style: AppTextStyles.overline),
                         const SizedBox(height: AppSpacing.xs),
                         Text(
-                          'Sign in to your\nNimbus account.',
+                          context.strings.authSignInTitle,
                           style: AppTextStyles.displayLarge,
                         ),
                       ],
@@ -116,21 +116,21 @@ class _LoginPageState extends State<LoginPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AuthTextField(
-                      label: 'Email',
+                      label: context.strings.authEmailLabel,
                       hint: 'you@example.com',
                       icon: Icons.mail_outline_rounded,
                       controller: _email,
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
                       validator: (v) {
-                        if (v == null || v.isEmpty) return 'Email is required';
-                        if (!v.contains('@')) return 'Enter a valid email';
+                        if (v == null || v.isEmpty) return context.strings.authEmailRequired;
+                        if (!v.contains('@')) return context.strings.authEmailInvalid;
                         return null;
                       },
                     ),
                     const SizedBox(height: AppSpacing.md),
                     AuthTextField(
-                      label: 'Password',
+                      label: context.strings.authPasswordLabel,
                       hint: '•••••••••',
                       icon: Icons.lock_outline_rounded,
                       controller: _password,
@@ -139,9 +139,9 @@ class _LoginPageState extends State<LoginPage> {
                       onSubmitted: (_) => _submit(),
                       validator: (v) {
                         if (v == null || v.isEmpty) {
-                          return 'Password is required';
+                          return context.strings.authPasswordRequired;
                         }
-                        if (v.length < 6) return 'At least 6 characters';
+                        if (v.length < 6) return context.strings.authPasswordMinLength(6);
                         return null;
                       },
                     ),
@@ -154,7 +154,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         const SizedBox(width: AppSpacing.xs),
                         Text(
-                          'Remember me',
+                          context.strings.authRememberMe,
                           style: AppTextStyles.labelMedium.copyWith(
                             color: context.colors.textPrimary,
                           ),
@@ -168,7 +168,7 @@ class _LoginPageState extends State<LoginPage> {
                             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           ),
                           child: Text(
-                            'Forgot password?',
+                            context.strings.authForgotPassword,
                             style: AppTextStyles.labelMedium.copyWith(
                               color: context.colors.primary,
                               fontWeight: FontWeight.w600,
@@ -197,7 +197,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           )
                         : PrimaryButton(
-                            label: 'Sign in',
+                            label: context.strings.authSignIn,
                             icon: Icons.arrow_forward_rounded,
                             onPressed: _submit,
                           ),
@@ -210,7 +210,7 @@ class _LoginPageState extends State<LoginPage> {
                             horizontal: AppSpacing.sm,
                           ),
                           child: Text(
-                            'or continue with',
+                            context.strings.authOrContinueWith,
                             style: AppTextStyles.labelMedium,
                           ),
                         ),
@@ -238,13 +238,13 @@ class _LoginPageState extends State<LoginPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'New to Nimbus? ',
+                          context.strings.authNewToNimbus,
                           style: AppTextStyles.bodyMedium,
                         ),
                         GestureDetector(
                           onTap: () => context.go('/register'),
                           child: Text(
-                            'Create account',
+                            context.strings.authCreateAccount,
                             style: AppTextStyles.labelLarge.copyWith(
                               color: context.colors.primary,
                               fontWeight: FontWeight.w600,
@@ -268,7 +268,7 @@ class _LoginPageState extends State<LoginPage> {
       SnackBar(
         backgroundColor: context.colors.surfaceElevated,
         content: Text(
-          'Continuing with $provider…',
+          context.strings.authSocialContinuing(provider),
           style: AppTextStyles.bodyMedium.copyWith(
             color: context.colors.textPrimary,
           ),
@@ -359,18 +359,18 @@ class _ForgotSheetState extends State<_ForgotSheet> {
             ),
           ),
           const SizedBox(height: AppSpacing.lg),
-          Text('Forgot password?', style: AppTextStyles.headlineLarge),
+          Text(context.strings.authForgotPassword, style: AppTextStyles.headlineLarge),
           const SizedBox(height: AppSpacing.xs),
           Text(
             _sent
-                ? 'We’ve sent a reset link to ${_controller.text}. Check your inbox.'
-                : 'Enter the email tied to your Nimbus account and we’ll send a reset link.',
+                ? context.strings.authResetLinkSent(_controller.text)
+                : context.strings.authResetLinkPrompt,
             style: AppTextStyles.bodyMedium,
           ),
           const SizedBox(height: AppSpacing.lg),
           if (!_sent)
             AuthTextField(
-              label: 'Email',
+              label: context.strings.authEmailLabel,
               hint: 'you@example.com',
               icon: Icons.mail_outline_rounded,
               controller: _controller,
@@ -378,7 +378,7 @@ class _ForgotSheetState extends State<_ForgotSheet> {
             ),
           const SizedBox(height: AppSpacing.lg),
           PrimaryButton(
-            label: _sent ? 'Close' : 'Send reset link',
+            label: _sent ? context.strings.commonClose : context.strings.authSendResetLink,
             icon: _sent ? Icons.check_rounded : Icons.arrow_forward_rounded,
             onPressed: () {
               if (_sent) {

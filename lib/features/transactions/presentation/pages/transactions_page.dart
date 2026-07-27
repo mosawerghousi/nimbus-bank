@@ -36,13 +36,13 @@ class _TransactionsPageState extends ConsumerState<TransactionsPage> {
     }).toList();
   }
 
-  String _dayLabel(DateTime date) {
+  String _dayLabel(BuildContext context, DateTime date) {
     final anchor = MockBankRepository.anchor;
     final day = DateTime(date.year, date.month, date.day);
     final today = DateTime(anchor.year, anchor.month, anchor.day);
     final diff = today.difference(day).inDays;
-    if (diff == 0) return 'Today';
-    if (diff == 1) return 'Yesterday';
+    if (diff == 0) return context.strings.commonToday;
+    if (diff == 1) return context.strings.commonYesterday;
     return DateFormat('EEEE, MMM d').format(date);
   }
 
@@ -55,7 +55,7 @@ class _TransactionsPageState extends ConsumerState<TransactionsPage> {
 
     final grouped = <String, List<Transaction>>{};
     for (final t in results) {
-      final key = _dayLabel(t.date);
+      final key = _dayLabel(context, t.date);
       grouped.putIfAbsent(key, () => []).add(t);
     }
 
@@ -75,9 +75,9 @@ class _TransactionsPageState extends ConsumerState<TransactionsPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('ACTIVITY', style: AppTextStyles.overline),
+                  Text(context.strings.transactionsActivityEyebrow, style: AppTextStyles.overline),
                   const SizedBox(height: AppSpacing.xs),
-                  Text('Transactions', style: AppTextStyles.displayMedium),
+                  Text(context.strings.transactionsTitle, style: AppTextStyles.displayMedium),
                   const SizedBox(height: AppSpacing.lg),
                   Container(
                     height: 52,
@@ -105,7 +105,7 @@ class _TransactionsPageState extends ConsumerState<TransactionsPage> {
                             ),
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: 'Search transactions…',
+                              hintText: context.strings.transactionsSearchHint,
                               hintStyle: AppTextStyles.bodyMedium.copyWith(
                                 color: context.colors.textMuted,
                               ),
@@ -141,7 +141,9 @@ class _TransactionsPageState extends ConsumerState<TransactionsPage> {
                 separatorBuilder: (_, _) => const SizedBox(width: AppSpacing.xs),
                 itemBuilder: (context, i) {
                   final id = i == 0 ? 'all' : categories[i - 1].id;
-                  final label = i == 0 ? 'All' : categories[i - 1].label;
+                  final label = i == 0
+                      ? context.strings.commonAll
+                      : context.strings.spendCategoryLabel(categories[i - 1].id);
                   final active = id == _categoryFilter;
                   return GestureDetector(
                     onTap: () => setState(() => _categoryFilter = id),
@@ -183,7 +185,7 @@ class _TransactionsPageState extends ConsumerState<TransactionsPage> {
               padding: const EdgeInsets.symmetric(
                 horizontal: AppSpacing.pageHPadding,
               ),
-              child: Text('This month', style: AppTextStyles.headlineMedium),
+              child: Text(context.strings.transactionsThisMonth, style: AppTextStyles.headlineMedium),
             ),
           ),
           const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.md)),
@@ -218,10 +220,10 @@ class _TransactionsPageState extends ConsumerState<TransactionsPage> {
                         ),
                       ),
                       const SizedBox(height: AppSpacing.md),
-                      Text('No transactions found', style: AppTextStyles.titleLarge),
+                      Text(context.strings.transactionsEmptyTitle, style: AppTextStyles.titleLarge),
                       const SizedBox(height: AppSpacing.xs),
                       Text(
-                        'Try a different search term or category.',
+                        context.strings.transactionsEmptyBody,
                         textAlign: TextAlign.center,
                         style: AppTextStyles.bodyMedium,
                       ),

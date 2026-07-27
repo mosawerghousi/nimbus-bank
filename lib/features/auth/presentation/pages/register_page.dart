@@ -39,7 +39,7 @@ class _RegisterPageState extends State<RegisterPage> {
         SnackBar(
           backgroundColor: context.colors.surfaceElevated,
           content: Text(
-            'Please accept the terms to continue.',
+            context.strings.authAcceptTermsError,
             style: AppTextStyles.bodyMedium.copyWith(
               color: context.colors.textPrimary,
             ),
@@ -95,10 +95,10 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('JOIN NIMBUS', style: AppTextStyles.overline),
+                        Text(context.strings.authJoinNimbus, style: AppTextStyles.overline),
                         const SizedBox(height: AppSpacing.xs),
                         Text(
-                          'Create your\nNimbus account.',
+                          context.strings.authCreateAccountTitle,
                           style: AppTextStyles.displayLarge,
                         ),
                       ],
@@ -120,36 +120,36 @@ class _RegisterPageState extends State<RegisterPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AuthTextField(
-                      label: 'Full name',
+                      label: context.strings.authFullNameLabel,
                       hint: 'Alex Morgan',
                       icon: Icons.person_outline_rounded,
                       controller: _name,
                       textInputAction: TextInputAction.next,
                       validator: (v) {
                         if (v == null || v.trim().isEmpty) {
-                          return 'Name is required';
+                          return context.strings.authFullNameRequired;
                         }
                         return null;
                       },
                     ),
                     const SizedBox(height: AppSpacing.md),
                     AuthTextField(
-                      label: 'Email',
+                      label: context.strings.authEmailLabel,
                       hint: 'you@example.com',
                       icon: Icons.mail_outline_rounded,
                       controller: _email,
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
                       validator: (v) {
-                        if (v == null || v.isEmpty) return 'Email is required';
-                        if (!v.contains('@')) return 'Enter a valid email';
+                        if (v == null || v.isEmpty) return context.strings.authEmailRequired;
+                        if (!v.contains('@')) return context.strings.authEmailInvalid;
                         return null;
                       },
                     ),
                     const SizedBox(height: AppSpacing.md),
                     AuthTextField(
-                      label: 'Password',
-                      hint: 'At least 8 characters',
+                      label: context.strings.authPasswordLabel,
+                      hint: context.strings.authPasswordMinLength(8),
                       icon: Icons.lock_outline_rounded,
                       controller: _password,
                       obscure: true,
@@ -157,9 +157,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       onSubmitted: (_) => _submit(),
                       validator: (v) {
                         if (v == null || v.isEmpty) {
-                          return 'Password is required';
+                          return context.strings.authPasswordRequired;
                         }
-                        if (v.length < 8) return 'At least 8 characters';
+                        if (v.length < 8) return context.strings.authPasswordMinLength(8);
                         return null;
                       },
                     ),
@@ -206,23 +206,23 @@ class _RegisterPageState extends State<RegisterPage> {
                             TextSpan(
                               style: AppTextStyles.bodySmall,
                               children: [
-                                const TextSpan(text: 'I agree to Nimbus’s '),
+                                TextSpan(text: context.strings.authAgreeToTermsPrefix),
                                 TextSpan(
-                                  text: 'Terms of Service',
+                                  text: context.strings.authTermsOfService,
                                   style: AppTextStyles.bodySmall.copyWith(
                                     color: context.colors.primary,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                                const TextSpan(text: ' and '),
+                                TextSpan(text: context.strings.authAgreeToTermsAnd),
                                 TextSpan(
-                                  text: 'Privacy Policy',
+                                  text: context.strings.authPrivacyPolicy,
                                   style: AppTextStyles.bodySmall.copyWith(
                                     color: context.colors.primary,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                                const TextSpan(text: '.'),
+                                TextSpan(text: context.strings.authAgreeToTermsSuffix),
                               ],
                             ),
                           ),
@@ -249,7 +249,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                           )
                         : PrimaryButton(
-                            label: 'Create account',
+                            label: context.strings.authCreateAccount,
                             icon: Icons.arrow_forward_rounded,
                             onPressed: _submit,
                           ),
@@ -262,7 +262,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             horizontal: AppSpacing.sm,
                           ),
                           child: Text(
-                            'or sign up with',
+                            context.strings.authOrSignUpWith,
                             style: AppTextStyles.labelMedium,
                           ),
                         ),
@@ -290,13 +290,13 @@ class _RegisterPageState extends State<RegisterPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Already a member? ',
+                          context.strings.authAlreadyMember,
                           style: AppTextStyles.bodyMedium,
                         ),
                         GestureDetector(
                           onTap: () => context.go('/login'),
                           child: Text(
-                            'Sign in',
+                            context.strings.authSignIn,
                             style: AppTextStyles.labelLarge.copyWith(
                               color: context.colors.primary,
                               fontWeight: FontWeight.w600,

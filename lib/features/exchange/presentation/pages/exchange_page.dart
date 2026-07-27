@@ -60,9 +60,9 @@ class _ExchangePageState extends State<ExchangePage> {
   @override
   Widget build(BuildContext context) {
     return SubPageScaffold(
-      eyebrow: 'CONVERT',
-      title: 'Currency exchange',
-      subtitle: 'Live-style mock rates, updated as you type.',
+      eyebrow: context.strings.exchangeEyebrow,
+      title: context.strings.exchangeTitle,
+      subtitle: context.strings.exchangeSubtitle,
       children: [
         Container(
           padding: const EdgeInsets.all(AppSpacing.lg),
@@ -167,7 +167,7 @@ class _ExchangePageState extends State<ExchangePage> {
           ],
         ),
         const SizedBox(height: AppSpacing.xl),
-        Text('ALL RATES · PER 1 USD', style: AppTextStyles.overline),
+        Text(context.strings.exchangeAllRates, style: AppTextStyles.overline),
         const SizedBox(height: AppSpacing.sm),
         ..._ratesPerUsd.entries.map(
           (entry) => Padding(

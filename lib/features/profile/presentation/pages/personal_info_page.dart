@@ -17,9 +17,9 @@ class PersonalInfoPage extends ConsumerWidget {
     final user = ref.watch(userProvider);
 
     return SubPageScaffold(
-      eyebrow: 'ACCOUNT',
-      title: 'Personal info',
-      subtitle: 'Keep your details up to date for statements and support.',
+      eyebrow: context.strings.personalInfoEyebrow,
+      title: context.strings.personalInfoTitle,
+      subtitle: context.strings.personalInfoSubtitle,
       children: [
         Center(
           child: Stack(
@@ -63,24 +63,24 @@ class PersonalInfoPage extends ConsumerWidget {
         const SizedBox(height: AppSpacing.xxl),
         _InfoTile(
           icon: Icons.badge_outlined,
-          label: 'Full name',
+          label: context.strings.authFullNameLabel,
           value: user.name,
           onTap: () => _editField(
             context: context,
             ref: ref,
-            label: 'Full name',
+            label: context.strings.authFullNameLabel,
             initialValue: user.name,
             onSave: (value) => ref.read(userProvider.notifier).updateField(name: value),
           ),
         ),
         _InfoTile(
           icon: Icons.mail_outline_rounded,
-          label: 'Email',
+          label: context.strings.authEmailLabel,
           value: user.email,
           onTap: () => _editField(
             context: context,
             ref: ref,
-            label: 'Email',
+            label: context.strings.authEmailLabel,
             initialValue: user.email,
             keyboardType: TextInputType.emailAddress,
             onSave: (value) => ref.read(userProvider.notifier).updateField(email: value),
@@ -88,12 +88,12 @@ class PersonalInfoPage extends ConsumerWidget {
         ),
         _InfoTile(
           icon: Icons.phone_outlined,
-          label: 'Phone',
+          label: context.strings.fieldPhone,
           value: user.phone,
           onTap: () => _editField(
             context: context,
             ref: ref,
-            label: 'Phone',
+            label: context.strings.fieldPhone,
             initialValue: user.phone,
             keyboardType: TextInputType.phone,
             onSave: (value) => ref.read(userProvider.notifier).updateField(phone: value),
@@ -101,24 +101,24 @@ class PersonalInfoPage extends ConsumerWidget {
         ),
         _InfoTile(
           icon: Icons.location_on_outlined,
-          label: 'Address',
+          label: context.strings.fieldAddress,
           value: user.address,
           onTap: () => _editField(
             context: context,
             ref: ref,
-            label: 'Address',
+            label: context.strings.fieldAddress,
             initialValue: user.address,
             onSave: (value) => ref.read(userProvider.notifier).updateField(address: value),
           ),
         ),
         _InfoTile(
           icon: Icons.cake_outlined,
-          label: 'Date of birth',
+          label: context.strings.fieldDateOfBirth,
           value: user.dateOfBirth,
           onTap: () => _editField(
             context: context,
             ref: ref,
-            label: 'Date of birth',
+            label: context.strings.fieldDateOfBirth,
             initialValue: user.dateOfBirth,
             onSave: (value) => ref.read(userProvider.notifier).updateField(dateOfBirth: value),
           ),
@@ -239,7 +239,7 @@ class _EditFieldSheetState extends State<_EditFieldSheet> {
                 ),
               ),
               const SizedBox(height: AppSpacing.xl),
-              Text('Edit ${widget.label.toLowerCase()}', style: AppTextStyles.headlineMedium),
+              Text(context.strings.editFieldTitle(widget.label), style: AppTextStyles.headlineMedium),
               const SizedBox(height: AppSpacing.lg),
               TextField(
                 controller: _controller,
@@ -272,7 +272,7 @@ class _EditFieldSheetState extends State<_EditFieldSheet> {
               ),
               const SizedBox(height: AppSpacing.xl),
               PrimaryButton(
-                label: 'Save',
+                label: context.strings.commonSave,
                 icon: Icons.check_rounded,
                 onPressed: _save,
               ),

@@ -58,7 +58,7 @@ class TopUpSuccessPage extends ConsumerWidget {
               ),
               const SizedBox(height: AppSpacing.xl),
               Text(
-                'Money added.',
+                context.strings.topupMoneyAdded,
                 textAlign: TextAlign.center,
                 style: AppTextStyles.displayLarge,
               ),
@@ -66,8 +66,11 @@ class TopUpSuccessPage extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
                 child: Text(
-                  '${currency.format(draft.amount)} from ${draft.sourceLabel} is now '
-                  'available in your ${account.name} account.',
+                  context.strings.topupAddedBody(
+                    currency.format(draft.amount),
+                    draft.sourceLabel,
+                    account.name,
+                  ),
                   textAlign: TextAlign.center,
                   style: AppTextStyles.bodyLarge,
                 ),
@@ -86,7 +89,7 @@ class TopUpSuccessPage extends ConsumerWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Added', style: AppTextStyles.labelMedium),
+                        Text(context.strings.topupAdded, style: AppTextStyles.labelMedium),
                         const SizedBox(height: 2),
                         Text(
                           currency.format(draft.amount),
@@ -97,7 +100,7 @@ class TopUpSuccessPage extends ConsumerWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text('New balance', style: AppTextStyles.labelMedium),
+                        Text(context.strings.topupNewBalance, style: AppTextStyles.labelMedium),
                         const SizedBox(height: 2),
                         Text(
                           currency.format(account.balance),
@@ -112,7 +115,7 @@ class TopUpSuccessPage extends ConsumerWidget {
               ),
               const Spacer(),
               PrimaryButton(
-                label: 'Done',
+                label: context.strings.commonDone,
                 icon: Icons.check_rounded,
                 onPressed: () => context.go('/home'),
               ),

@@ -90,7 +90,7 @@ class _SplashPageState extends State<SplashPage>
                     ),
                     const SizedBox(height: AppSpacing.xs),
                     Text(
-                      'BANKING, SIMPLIFIED',
+                      context.strings.appTagline,
                       style: AppTextStyles.overline,
                     ),
                   ],

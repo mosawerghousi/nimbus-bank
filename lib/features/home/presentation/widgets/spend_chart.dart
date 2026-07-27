@@ -33,7 +33,7 @@ class SpendChart extends ConsumerWidget {
           border: Border.all(color: context.colors.border),
         ),
         child: Text(
-          'No spending recorded yet this month.',
+          context.strings.spendChartNoSpending,
           style: AppTextStyles.bodyMedium,
         ),
       );
@@ -52,7 +52,7 @@ class SpendChart extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Total spent', style: AppTextStyles.bodyMedium),
+              Text(context.strings.spendChartTotalSpent, style: AppTextStyles.bodyMedium),
               Text(
                 currency.format(grandTotal),
                 style: AppTextStyles.titleLarge,
@@ -110,7 +110,7 @@ class SpendChart extends ConsumerWidget {
                   ),
                   const SizedBox(width: 6),
                   Expanded(
-                    child: Text(category.label, style: AppTextStyles.bodyMedium),
+                    child: Text(context.strings.spendCategoryLabel(category.id), style: AppTextStyles.bodyMedium),
                   ),
                   Text(
                     '$percent%',

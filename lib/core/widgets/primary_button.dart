@@ -127,6 +127,10 @@ class CircleIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // No manual RTL handling here: Icons.arrow_back_rounded /
+    // arrow_forward_rounded already auto-mirror correctly in RTL via the
+    // Material Icons font's own bidi glyph substitution — adding a
+    // Transform.flip or a manual icon swap on top double-corrects it.
     final button = Material(
       color: background ?? context.colors.glass,
       shape: CircleBorder(

@@ -31,35 +31,29 @@ class _OnboardingPageState extends State<OnboardingPage> {
   final _controller = PageController();
   int _index = 0;
 
-  static const _slides = <_Slide>[
-    _Slide(
-      image:
-          'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1600&q=80',
-      eyebrow: 'REAL-TIME LEDGER',
-      title: 'Track every dollar\nin real time.',
-      body:
-          'Every purchase, subscription and payday lands in your feed the '
-          'instant it happens — no waiting for a statement to catch up.',
-    ),
-    _Slide(
-      image:
-          'https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?auto=format&fit=crop&w=1600&q=80',
-      eyebrow: 'INSTANT TRANSFERS',
-      title: 'Send money\ninstantly, free.',
-      body:
-          'Pay back a friend or move money between accounts in seconds — '
-          'no fees, no waiting for business days.',
-    ),
-    _Slide(
-      image:
-          'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1600&q=80',
-      eyebrow: 'YOUR CARDS',
-      title: 'Cards built\naround you.',
-      body:
-          'Freeze a card the moment it goes missing, spin up a virtual card '
-          'for online checkout, and see every swipe as it happens.',
-    ),
-  ];
+  List<_Slide> _slides(BuildContext context) => [
+        _Slide(
+          image:
+              'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1600&q=80',
+          eyebrow: context.strings.onboardingSlide1Eyebrow,
+          title: context.strings.onboardingSlide1Title,
+          body: context.strings.onboardingSlide1Body,
+        ),
+        _Slide(
+          image:
+              'https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?auto=format&fit=crop&w=1600&q=80',
+          eyebrow: context.strings.onboardingSlide2Eyebrow,
+          title: context.strings.onboardingSlide2Title,
+          body: context.strings.onboardingSlide2Body,
+        ),
+        _Slide(
+          image:
+              'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1600&q=80',
+          eyebrow: context.strings.onboardingSlide3Eyebrow,
+          title: context.strings.onboardingSlide3Title,
+          body: context.strings.onboardingSlide3Body,
+        ),
+      ];
 
   @override
   void dispose() {
@@ -68,7 +62,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
   }
 
   void _next() {
-    if (_index == _slides.length - 1) {
+    if (_index == _slides(context).length - 1) {
       context.go('/login');
     } else {
       _controller.nextPage(
@@ -82,6 +76,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
   Widget build(BuildContext context) {
     final topInset = MediaQuery.viewPaddingOf(context).top;
     final bottomInset = MediaQuery.viewPaddingOf(context).bottom;
+    final slides = _slides(context);
 
     return Scaffold(
       backgroundColor: context.colors.background,
@@ -89,10 +84,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
         children: [
           PageView.builder(
             controller: _controller,
-            itemCount: _slides.length,
+            itemCount: slides.length,
             onPageChanged: (i) => setState(() => _index = i),
             itemBuilder: (context, i) {
-              final slide = _slides[i];
+              final slide = slides[i];
               return Stack(
                 fit: StackFit.expand,
                 children: [
@@ -138,7 +133,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 TextButton(
                   onPressed: () => context.go('/login'),
                   child: Text(
-                    'Skip',
+                    context.strings.onboardingSkip,
                     style: AppTextStyles.labelMedium.copyWith(
                       color: context.colors.textPrimary,
                     ),
@@ -169,17 +164,17 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          _slides[_index].eyebrow,
+                          slides[_index].eyebrow,
                           style: AppTextStyles.overline,
                         ),
                         const SizedBox(height: AppSpacing.sm),
                         Text(
-                          _slides[_index].title,
+                          slides[_index].title,
                           style: AppTextStyles.displayLarge,
                         ),
                         const SizedBox(height: AppSpacing.md),
                         Text(
-                          _slides[_index].body,
+                          slides[_index].body,
                           style: AppTextStyles.bodyLarge,
                         ),
                       ],
@@ -189,7 +184,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   Row(
                     children: [
                       Row(
-                        children: List.generate(_slides.length, (i) {
+                        children: List.generate(slides.length, (i) {
                           final active = i == _index;
                           return AnimatedContainer(
                             duration: const Duration(milliseconds: 300),
@@ -209,7 +204,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       ),
                       const Spacer(),
                       PrimaryButton(
-                        label: _index == _slides.length - 1 ? 'Get started' : 'Continue',
+                        label: _index == slides.length - 1
+                            ? context.strings.onboardingGetStarted
+                            : context.strings.commonContinue,
                         icon: Icons.arrow_forward_rounded,
                         onPressed: _next,
                         expanded: false,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../app/localization/app_strings.dart';
 import '../../app/theme/color_tokens.dart';
 
 extension ContextX on BuildContext {
@@ -13,6 +14,9 @@ extension ContextX on BuildContext {
   ColorScheme get colorScheme => Theme.of(this).colorScheme;
   ColorTokens get colors =>
       Theme.of(this).extension<ColorTokens>() ?? ColorTokens.dark();
+
+  /// Localized UI strings for the active locale — see [AppStrings].
+  AppStrings get strings => AppStrings.of(this);
 
   /// Resolves a [SpendCategory.colorKey] (or any semantic token name) to its
   /// themed [Color]. Keeps mock domain data free of raw [Color] literals —

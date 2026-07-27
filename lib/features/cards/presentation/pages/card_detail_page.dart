@@ -59,7 +59,7 @@ class _CardDetailPageState extends ConsumerState<CardDetailPage> {
             children: [
               Expanded(
                 child: PrimaryButton(
-                  label: isFrozen ? 'Unfreeze card' : 'Freeze card',
+                  label: isFrozen ? context.strings.cardsUnfreezeCard : context.strings.cardsFreezeCard,
                   icon: isFrozen
                       ? Icons.play_circle_outline_rounded
                       : Icons.ac_unit_rounded,
@@ -73,7 +73,7 @@ class _CardDetailPageState extends ConsumerState<CardDetailPage> {
               const SizedBox(width: AppSpacing.sm),
               Expanded(
                 child: PrimaryButton(
-                  label: _revealed ? 'Hide number' : 'Reveal number',
+                  label: _revealed ? context.strings.cardsHideNumber : context.strings.cardsRevealNumber,
                   icon: _revealed
                       ? Icons.visibility_off_outlined
                       : Icons.visibility_outlined,
@@ -104,8 +104,7 @@ class _CardDetailPageState extends ConsumerState<CardDetailPage> {
                   const SizedBox(width: AppSpacing.sm),
                   Expanded(
                     child: Text(
-                      'This card is frozen. New purchases, withdrawals and '
-                      'payments will be declined until you unfreeze it.',
+                      context.strings.cardsFrozenNotice,
                       style: AppTextStyles.bodySmall.copyWith(
                         color: context.colors.textPrimary,
                       ),
@@ -116,28 +115,28 @@ class _CardDetailPageState extends ConsumerState<CardDetailPage> {
             ),
           ],
           const SizedBox(height: AppSpacing.xxl),
-          Text('MANAGE', style: AppTextStyles.overline),
+          Text(context.strings.cardsManage, style: AppTextStyles.overline),
           const SizedBox(height: AppSpacing.xs),
-          Text('Card settings', style: AppTextStyles.headlineMedium),
+          Text(context.strings.cardsSettings, style: AppTextStyles.headlineMedium),
           const SizedBox(height: AppSpacing.md),
           _SettingsTile(
             icon: Icons.pin_outlined,
-            label: 'Change PIN',
-            onTap: () => _snack(context, 'PIN change request sent to your device.'),
+            label: context.strings.cardsChangePin,
+            onTap: () => _snack(context, context.strings.pinChangeRequestSnack),
           ),
           _SettingsTile(
             icon: Icons.speed_rounded,
-            label: 'Spending limit',
+            label: context.strings.cardsSpendingLimit,
             onTap: () =>
-                _snack(context, 'Spending limit is currently set to \$5,000/mo.'),
+                _snack(context, context.strings.cardsSpendingLimitSnack),
           ),
           _SettingsTile(
             icon: Icons.report_gmailerrorred_rounded,
-            label: 'Report lost or stolen',
+            label: context.strings.cardsReportLostStolen,
             tinted: true,
             onTap: () => _snack(
               context,
-              'Our support team has been notified and will contact you shortly.',
+              context.strings.cardsReportLostStolenSnack,
             ),
           ),
         ],
@@ -218,10 +217,13 @@ class _SettingsTile extends StatelessWidget {
                     style: AppTextStyles.titleSmall.copyWith(color: color),
                   ),
                 ),
-                Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: 14,
-                  color: tinted ? context.colors.error : context.colors.textMuted,
+                Transform.flip(
+                  flipX: Directionality.of(context) == TextDirection.rtl,
+                  child: Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 14,
+                    color: tinted ? context.colors.error : context.colors.textMuted,
+                  ),
                 ),
               ],
             ),

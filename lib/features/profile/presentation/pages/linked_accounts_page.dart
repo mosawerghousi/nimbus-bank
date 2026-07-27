@@ -21,16 +21,16 @@ class LinkedAccountsPage extends ConsumerWidget {
     final currency = NumberFormat.currency(locale: 'en_US', symbol: '\$');
 
     return SubPageScaffold(
-      eyebrow: 'MONEY, ALL IN ONE PLACE',
-      title: 'Linked accounts',
-      subtitle: 'Your Nimbus accounts, plus any outside banks you connect.',
+      eyebrow: context.strings.linkedAccountsEyebrow,
+      title: context.strings.linkedAccountsTitle,
+      subtitle: context.strings.linkedAccountsSubtitle,
       bottom: PrimaryButton(
-        label: 'Link a new bank',
+        label: context.strings.linkNewBank,
         icon: Icons.add_link_rounded,
         onPressed: () => context.push('/profile/linked-accounts/connect'),
       ),
       children: [
-        Text('NIMBUS ACCOUNTS', style: AppTextStyles.overline),
+        Text(context.strings.linkedAccountsNimbusAccounts, style: AppTextStyles.overline),
         const SizedBox(height: AppSpacing.sm),
         ...accounts.map(
           (a) => Padding(
@@ -78,7 +78,7 @@ class LinkedAccountsPage extends ConsumerWidget {
           ),
         ),
         const SizedBox(height: AppSpacing.xl),
-        Text('EXTERNAL BANKS', style: AppTextStyles.overline),
+        Text(context.strings.linkedAccountsExternalBanks, style: AppTextStyles.overline),
         const SizedBox(height: AppSpacing.sm),
         ...externalAccounts.map(
           (a) => _ExternalTile(name: a.name, masked: a.maskedNumber),
@@ -137,7 +137,7 @@ class _ExternalTile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(AppSpacing.radiusFull),
               ),
               child: Text(
-                'CONNECTED',
+                context.strings.linkedAccountsConnectedBadge,
                 style: AppTextStyles.overline.copyWith(
                   color: context.colors.secondary,
                   fontSize: 9,

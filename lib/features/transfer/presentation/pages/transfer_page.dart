@@ -44,12 +44,12 @@ class _TransferPageState extends ConsumerState<TransferPage> {
   void _continue() {
     final draft = ref.read(transferDraftProvider);
     if (draft.contactId == null) {
-      setState(() => _error = 'Choose who you’re sending to.');
+      setState(() => _error = context.strings.transferChooseRecipient);
       return;
     }
     final amount = double.tryParse(_amountController.text) ?? 0;
     if (amount <= 0) {
-      setState(() => _error = 'Enter an amount greater than \$0.');
+      setState(() => _error = context.strings.errorAmountTooLow);
       return;
     }
     ref.read(transferDraftProvider.notifier)
@@ -86,7 +86,7 @@ class _TransferPageState extends ConsumerState<TransferPage> {
                 onPressed: () => context.pop(),
               ),
               const Spacer(),
-              Text('Send money', style: AppTextStyles.titleMedium),
+              Text(context.strings.transferSendMoney, style: AppTextStyles.titleMedium),
               const Spacer(),
               const SizedBox(width: 44),
             ],
@@ -96,7 +96,7 @@ class _TransferPageState extends ConsumerState<TransferPage> {
             child: Column(
               children: [
                 Text(
-                  'Amount',
+                  context.strings.commonAmount,
                   style: AppTextStyles.bodyMedium,
                 ),
                 const SizedBox(height: AppSpacing.xs),
@@ -127,14 +127,14 @@ class _TransferPageState extends ConsumerState<TransferPage> {
                   ),
                 ),
                 Text(
-                  'from ${fromAccount.name} · ${fromAccount.maskedNumber}',
+                  context.strings.transferFromAccount(fromAccount.name, fromAccount.maskedNumber),
                   style: AppTextStyles.bodySmall,
                 ),
               ],
             ),
           ),
           const SizedBox(height: AppSpacing.xxl),
-          Text('SEND FROM', style: AppTextStyles.overline),
+          Text(context.strings.transferSendFrom, style: AppTextStyles.overline),
           const SizedBox(height: AppSpacing.sm),
           SizedBox(
             height: 44,
@@ -180,7 +180,7 @@ class _TransferPageState extends ConsumerState<TransferPage> {
             ),
           ),
           const SizedBox(height: AppSpacing.xxl),
-          Text('SEND TO', style: AppTextStyles.overline),
+          Text(context.strings.transferSendTo, style: AppTextStyles.overline),
           const SizedBox(height: AppSpacing.sm),
           GridView.builder(
             shrinkWrap: true,
@@ -237,7 +237,7 @@ class _TransferPageState extends ConsumerState<TransferPage> {
             },
           ),
           const SizedBox(height: AppSpacing.xl),
-          Text('NOTE (OPTIONAL)', style: AppTextStyles.overline),
+          Text(context.strings.transferNoteOptional, style: AppTextStyles.overline),
           const SizedBox(height: AppSpacing.sm),
           TextField(
             controller: _noteController,
@@ -247,7 +247,7 @@ class _TransferPageState extends ConsumerState<TransferPage> {
             decoration: InputDecoration(
               filled: true,
               fillColor: context.colors.surface,
-              hintText: 'What’s it for?',
+              hintText: context.strings.transferNoteHint,
               hintStyle: AppTextStyles.bodyMedium.copyWith(
                 color: context.colors.textMuted,
               ),
@@ -280,7 +280,7 @@ class _TransferPageState extends ConsumerState<TransferPage> {
           ],
           const SizedBox(height: AppSpacing.xl),
           PrimaryButton(
-            label: 'Continue',
+            label: context.strings.commonContinue,
             icon: Icons.arrow_forward_rounded,
             onPressed: _continue,
           ),

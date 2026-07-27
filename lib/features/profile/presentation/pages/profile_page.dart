@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_text_styles.dart';
+import '../../../../core/widgets/language_selector.dart';
 import '../../../../core/widgets/network_hero_image.dart';
 import '../../../../core/widgets/theme_mode_selector.dart';
 import '../../../home/presentation/providers/bank_providers.dart';
@@ -16,6 +17,7 @@ class ProfilePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userProvider);
     final accounts = ref.watch(accountsProvider);
+    final cards = ref.watch(cardsProvider);
     final topInset = MediaQuery.viewPaddingOf(context).top;
 
     return Scaffold(
@@ -70,7 +72,7 @@ class ProfilePage extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(AppSpacing.radiusFull),
                       ),
                       child: Text(
-                        'VERIFIED MEMBER',
+                        context.strings.profileVerifiedMember,
                         style: AppTextStyles.overline.copyWith(
                           color: context.colors.textInverse,
                           fontSize: 10,
@@ -87,7 +89,7 @@ class ProfilePage extends ConsumerWidget {
             children: [
               Expanded(
                 child: _StatTile(
-                  label: 'Accounts',
+                  label: context.strings.profileAccountsStat,
                   value: '${accounts.length}',
                   icon: Icons.account_balance_rounded,
                   onTap: () => context.push('/profile/linked-accounts'),
@@ -96,8 +98,8 @@ class ProfilePage extends ConsumerWidget {
               const SizedBox(width: AppSpacing.sm),
               Expanded(
                 child: _StatTile(
-                  label: 'Cards',
-                  value: '3',
+                  label: context.strings.navCards,
+                  value: '${cards.length}',
                   icon: Icons.credit_card_rounded,
                   onTap: () => context.go('/cards'),
                 ),
@@ -105,57 +107,63 @@ class ProfilePage extends ConsumerWidget {
               const SizedBox(width: AppSpacing.sm),
               Expanded(
                 child: _StatTile(
-                  label: 'Since',
+                  label: context.strings.profileSinceStat,
                   value: '2024',
                   icon: Icons.workspace_premium_rounded,
                   onTap: () => _snack(
                     context,
-                    'Member since March 2024. Thanks for banking with Nimbus.',
+                    context.strings.profileMemberSince,
                   ),
                 ),
               ),
             ],
           ),
           const SizedBox(height: AppSpacing.xxl),
-          Text('Appearance', style: AppTextStyles.overline),
+          Text(context.strings.profileAppearance, style: AppTextStyles.overline),
           const SizedBox(height: AppSpacing.xs),
-          Text('Theme', style: AppTextStyles.headlineMedium),
+          Text(context.strings.profileTheme, style: AppTextStyles.headlineMedium),
           const SizedBox(height: AppSpacing.md),
           const ThemeModeSelector(),
           const SizedBox(height: AppSpacing.xxl),
-          Text('Account', style: AppTextStyles.overline),
+          Text(context.strings.profileLanguageEyebrow, style: AppTextStyles.overline),
           const SizedBox(height: AppSpacing.xs),
-          Text('Settings', style: AppTextStyles.headlineMedium),
+          Text(context.strings.profileLanguage, style: AppTextStyles.headlineMedium),
+          const SizedBox(height: AppSpacing.md),
+          const LanguageSelector(),
+          const SizedBox(height: AppSpacing.xxl),
+          Text(context.strings.profileAccountEyebrow, style: AppTextStyles.overline),
+          const SizedBox(height: AppSpacing.xs),
+          Text(context.strings.profileSettingsHeadline, style: AppTextStyles.headlineMedium),
           const SizedBox(height: AppSpacing.md),
           _MenuItem(
             icon: Icons.person_outline_rounded,
-            label: 'Personal info',
+            label: context.strings.personalInfoTitle,
             onTap: () => context.push('/profile/personal-info'),
           ),
           _MenuItem(
             icon: Icons.shield_outlined,
-            label: 'Security & PIN',
+            label: context.strings.securityTitle,
             onTap: () => context.push('/profile/security'),
           ),
           _MenuItem(
             icon: Icons.notifications_outlined,
-            label: 'Notifications',
+            label: context.strings.notificationsTitle,
             onTap: () => context.push('/profile/notifications'),
           ),
           _MenuItem(
             icon: Icons.account_balance_outlined,
-            label: 'Linked accounts',
+            label: context.strings.linkedAccountsTitle,
             onTap: () => context.push('/profile/linked-accounts'),
           ),
           _MenuItem(
             icon: Icons.help_outline_rounded,
-            label: 'Help & support',
+            label: context.strings.helpSupport,
             onTap: () => context.push('/profile/help'),
           ),
           const SizedBox(height: AppSpacing.md),
           _MenuItem(
             icon: Icons.logout_rounded,
-            label: 'Log out',
+            label: context.strings.menuLogOut,
             tinted: true,
             onTap: () => _confirmSignOut(context),
           ),
@@ -222,10 +230,10 @@ class ProfilePage extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: AppSpacing.md),
-                Text('Log out?', style: AppTextStyles.headlineLarge),
+                Text(context.strings.logOutConfirmTitle, style: AppTextStyles.headlineLarge),
                 const SizedBox(height: AppSpacing.xs),
                 Text(
-                  'You can sign back in at any time.',
+                  context.strings.logOutConfirmBody,
                   style: AppTextStyles.bodyMedium,
                 ),
                 const SizedBox(height: AppSpacing.xl),
@@ -244,7 +252,7 @@ class ProfilePage extends ConsumerWidget {
                           ),
                         ),
                         onPressed: () => Navigator.of(sheetContext).pop(),
-                        child: Text('Cancel', style: AppTextStyles.labelLarge),
+                        child: Text(context.strings.commonCancel, style: AppTextStyles.labelLarge),
                       ),
                     ),
                     const SizedBox(width: AppSpacing.sm),
@@ -265,7 +273,7 @@ class ProfilePage extends ConsumerWidget {
                           context.go('/login');
                         },
                         child: Text(
-                          'Log out',
+                          context.strings.menuLogOut,
                           style: AppTextStyles.labelLarge.copyWith(
                             color: context.colors.textInverse,
                           ),
@@ -385,10 +393,13 @@ class _MenuItem extends StatelessWidget {
                     ),
                   ),
                 ),
-                Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: 14,
-                  color: tinted ? context.colors.error : context.colors.textMuted,
+                Transform.flip(
+                  flipX: Directionality.of(context) == TextDirection.rtl,
+                  child: Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 14,
+                    color: tinted ? context.colors.error : context.colors.textMuted,
+                  ),
                 ),
               ],
             ),

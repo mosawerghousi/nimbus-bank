@@ -68,7 +68,7 @@ class AccountCarouselCard extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    'NIMBUS · ${account.type.label.toUpperCase()}',
+                    'NIMBUS · ${context.strings.accountTypeLabel(account.type).toUpperCase()}',
                     style: AppTextStyles.overline.copyWith(
                       color: onCard.withValues(alpha: 0.85),
                     ),
@@ -83,7 +83,7 @@ class AccountCarouselCard extends StatelessWidget {
               ),
               const SizedBox(height: AppSpacing.xl),
               Text(
-                'Available balance',
+                context.strings.homeAvailableBalance,
                 style: AppTextStyles.bodySmall.copyWith(
                   color: onCard.withValues(alpha: 0.75),
                 ),

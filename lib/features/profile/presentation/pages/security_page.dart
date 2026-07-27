@@ -35,16 +35,16 @@ class _SecurityPageState extends State<SecurityPage> {
   @override
   Widget build(BuildContext context) {
     return SubPageScaffold(
-      eyebrow: 'PROTECT YOUR ACCOUNT',
-      title: 'Security & PIN',
-      subtitle: 'Manage how you sign in and keep your money safe.',
+      eyebrow: context.strings.securityEyebrow,
+      title: context.strings.securityTitle,
+      subtitle: context.strings.securitySubtitle,
       children: [
         Material(
           color: context.colors.surface,
           borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
           child: InkWell(
             borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
-            onTap: () => _snack('PIN change request sent to your device.'),
+            onTap: () => _snack(context.strings.pinChangeRequestSnack),
             child: Container(
               padding: const EdgeInsets.all(AppSpacing.md),
               decoration: BoxDecoration(
@@ -71,16 +71,19 @@ class _SecurityPageState extends State<SecurityPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('App PIN', style: AppTextStyles.titleSmall),
+                        Text(context.strings.securityAppPin, style: AppTextStyles.titleSmall),
                         const SizedBox(height: 2),
-                        Text('Last changed 4 months ago', style: AppTextStyles.bodySmall),
+                        Text(context.strings.securityLastChanged, style: AppTextStyles.bodySmall),
                       ],
                     ),
                   ),
-                  Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    size: 14,
-                    color: context.colors.textMuted,
+                  Transform.flip(
+                    flipX: Directionality.of(context) == TextDirection.rtl,
+                    child: Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      size: 14,
+                      color: context.colors.textMuted,
+                    ),
                   ),
                 ],
               ),
@@ -101,8 +104,8 @@ class _SecurityPageState extends State<SecurityPage> {
               children: [
                 _ToggleRow(
                   icon: Icons.fingerprint_rounded,
-                  label: 'Face ID & Touch ID',
-                  sublabel: 'Unlock Nimbus without your PIN',
+                  label: context.strings.securityFaceId,
+                  sublabel: context.strings.securityFaceIdSub,
                   value: _biometrics,
                   onChanged: (v) => setState(() => _biometrics = v),
                 ),
@@ -112,8 +115,8 @@ class _SecurityPageState extends State<SecurityPage> {
                 ),
                 _ToggleRow(
                   icon: Icons.verified_user_outlined,
-                  label: 'Two-factor authentication',
-                  sublabel: 'Require a code for new devices',
+                  label: context.strings.securityTwoFactor,
+                  sublabel: context.strings.securityTwoFactorSub,
                   value: _twoFactor,
                   onChanged: (v) => setState(() => _twoFactor = v),
                 ),
@@ -123,8 +126,8 @@ class _SecurityPageState extends State<SecurityPage> {
                 ),
                 _ToggleRow(
                   icon: Icons.notifications_active_outlined,
-                  label: 'Sign-in alerts',
-                  sublabel: 'Get notified of new device sign-ins',
+                  label: context.strings.securitySignInAlerts,
+                  sublabel: context.strings.securitySignInAlertsSub,
                   value: _loginAlerts,
                   onChanged: (v) => setState(() => _loginAlerts = v),
                 ),
@@ -133,7 +136,7 @@ class _SecurityPageState extends State<SecurityPage> {
           ),
         ),
         const SizedBox(height: AppSpacing.xxl),
-        Text('ACTIVE SESSIONS', style: AppTextStyles.overline),
+        Text(context.strings.securityActiveSessions, style: AppTextStyles.overline),
         const SizedBox(height: AppSpacing.sm),
         _SessionTile(
           device: 'iPhone 15 Pro · San Francisco, CA',
@@ -141,8 +144,8 @@ class _SecurityPageState extends State<SecurityPage> {
         ),
         _SessionTile(
           device: 'MacBook Pro · San Francisco, CA',
-          lastActive: '2 days ago',
-          onRevoke: () => _snack('Session on MacBook Pro has been signed out.'),
+          lastActive: context.strings.securityTwoDaysAgo,
+          onRevoke: () => _snack(context.strings.securitySessionRevoked('MacBook Pro')),
         ),
       ],
     );
@@ -235,7 +238,7 @@ class _SessionTile extends StatelessWidget {
                   Text(device, style: AppTextStyles.titleSmall),
                   const SizedBox(height: 2),
                   Text(
-                    isCurrent ? 'This device · Active now' : 'Last active $lastActive',
+                    isCurrent ? context.strings.securityThisDeviceActive : context.strings.securityLastActive(lastActive ?? ''),
                     style: AppTextStyles.bodySmall.copyWith(
                       color: isCurrent ? context.colors.secondary : context.colors.textMuted,
                     ),
@@ -247,7 +250,7 @@ class _SessionTile extends StatelessWidget {
               TextButton(
                 onPressed: onRevoke,
                 child: Text(
-                  'Revoke',
+                  context.strings.commonRevoke,
                   style: AppTextStyles.labelMedium.copyWith(
                     color: context.colors.error,
                     fontWeight: FontWeight.w600,

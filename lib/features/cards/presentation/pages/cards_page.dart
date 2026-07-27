@@ -29,12 +29,12 @@ class CardsPage extends ConsumerWidget {
           120,
         ),
         children: [
-          Text('WALLET', style: AppTextStyles.overline),
+          Text(context.strings.cardsWallet, style: AppTextStyles.overline),
           const SizedBox(height: AppSpacing.xs),
-          Text('Your cards', style: AppTextStyles.displayMedium),
+          Text(context.strings.cardsYourCards, style: AppTextStyles.displayMedium),
           const SizedBox(height: AppSpacing.sm),
           Text(
-            '${cards.length} cards linked to your accounts.',
+            context.strings.cardsLinked(cards.length),
             style: AppTextStyles.bodyMedium,
           ),
           const SizedBox(height: AppSpacing.xl),
@@ -51,7 +51,7 @@ class CardsPage extends ConsumerWidget {
           }),
           const SizedBox(height: AppSpacing.md),
           PrimaryButton(
-            label: 'Add a new card',
+            label: context.strings.cardsAddNewCard,
             icon: Icons.add_rounded,
             variant: PrimaryButtonVariant.ghost,
             onPressed: () => context.push('/cards/new'),

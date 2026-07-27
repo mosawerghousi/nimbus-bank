@@ -52,6 +52,9 @@ class SectionHeader extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 4),
+                    // No manual RTL flip: arrow_forward_rounded already
+                    // auto-mirrors correctly via the Material Icons font's
+                    // own bidi glyph substitution (see CircleIconButton).
                     Icon(
                       Icons.arrow_forward_rounded,
                       size: 14,

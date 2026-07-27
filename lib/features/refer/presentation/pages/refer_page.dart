@@ -19,9 +19,9 @@ class ReferPage extends ConsumerWidget {
     final code = 'NIMBUS-${firstName.toUpperCase()}24';
 
     return SubPageScaffold(
-      eyebrow: 'INVITE FRIENDS',
-      title: 'Refer a friend',
-      subtitle: 'Give \$20, get \$20 — invite friends to Nimbus.',
+      eyebrow: context.strings.referEyebrow,
+      title: context.strings.referTitle,
+      subtitle: context.strings.referSubtitle,
       children: [
         Container(
           padding: const EdgeInsets.all(AppSpacing.xl),
@@ -46,15 +46,14 @@ class ReferPage extends ConsumerWidget {
               ),
               const SizedBox(height: AppSpacing.md),
               Text(
-                'Give \$20, get \$20',
+                context.strings.referGiveGet,
                 style: AppTextStyles.headlineLarge.copyWith(
                   color: context.colors.textInverse,
                 ),
               ),
               const SizedBox(height: AppSpacing.xs),
               Text(
-                'When a friend joins Nimbus with your code and makes their '
-                'first transfer, you both get \$20.',
+                context.strings.referGiveGetBody,
                 style: AppTextStyles.bodyMedium.copyWith(
                   color: context.colors.textInverse.withValues(alpha: 0.9),
                 ),
@@ -63,7 +62,7 @@ class ReferPage extends ConsumerWidget {
           ),
         ),
         const SizedBox(height: AppSpacing.xl),
-        Text('YOUR REFERRAL CODE', style: AppTextStyles.overline),
+        Text(context.strings.referYourCode, style: AppTextStyles.overline),
         const SizedBox(height: AppSpacing.sm),
         Container(
           padding: const EdgeInsets.all(AppSpacing.lg),
@@ -89,7 +88,7 @@ class ReferPage extends ConsumerWidget {
         ),
         const SizedBox(height: AppSpacing.md),
         PrimaryButton(
-          label: 'Copy code',
+          label: context.strings.referCopyCode,
           icon: Icons.copy_rounded,
           variant: PrimaryButtonVariant.subtle,
           onPressed: () {
@@ -99,7 +98,7 @@ class ReferPage extends ConsumerWidget {
                 backgroundColor: context.colors.surfaceElevated,
                 behavior: SnackBarBehavior.floating,
                 content: Text(
-                  'Copied to clipboard',
+                  context.strings.referCopiedSnack,
                   style: AppTextStyles.bodyMedium.copyWith(
                     color: context.colors.textPrimary,
                   ),
@@ -109,22 +108,22 @@ class ReferPage extends ConsumerWidget {
           },
         ),
         const SizedBox(height: AppSpacing.xxl),
-        Text('HOW IT WORKS', style: AppTextStyles.overline),
+        Text(context.strings.referHowItWorks, style: AppTextStyles.overline),
         const SizedBox(height: AppSpacing.sm),
-        const _StepTile(
+        _StepTile(
           number: '1',
-          title: 'Share your code',
-          subtitle: 'Send your referral code to a friend, family member, or anyone.',
+          title: context.strings.referStep1Title,
+          subtitle: context.strings.referStep1Body,
         ),
-        const _StepTile(
+        _StepTile(
           number: '2',
-          title: 'They sign up',
-          subtitle: 'Your friend downloads Nimbus and enters your code when they join.',
+          title: context.strings.referStep2Title,
+          subtitle: context.strings.referStep2Body,
         ),
-        const _StepTile(
+        _StepTile(
           number: '3',
-          title: 'You both get paid',
-          subtitle: 'After their first transfer, \$20 lands in each of your accounts.',
+          title: context.strings.referStep3Title,
+          subtitle: context.strings.referStep3Body,
         ),
       ],
     );
