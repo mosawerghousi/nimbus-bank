@@ -178,7 +178,7 @@ class _TopUpPageState extends ConsumerState<TopUpPage> {
                       source,
                       style: AppTextStyles.labelMedium.copyWith(
                         color: active
-                            ? context.colors.textInverse
+                            ? context.colors.background
                             : context.colors.textSecondary,
                         fontWeight: FontWeight.w600,
                       ),
@@ -224,7 +224,7 @@ class _TopUpPageState extends ConsumerState<TopUpPage> {
                       account.name,
                       style: AppTextStyles.labelMedium.copyWith(
                         color: active
-                            ? context.colors.textInverse
+                            ? context.colors.background
                             : context.colors.textSecondary,
                         fontWeight: FontWeight.w600,
                       ),

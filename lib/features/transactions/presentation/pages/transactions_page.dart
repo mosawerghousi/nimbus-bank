@@ -166,7 +166,7 @@ class _TransactionsPageState extends ConsumerState<TransactionsPage> {
                         label,
                         style: AppTextStyles.labelMedium.copyWith(
                           color: active
-                              ? context.colors.textInverse
+                              ? context.colors.background
                               : context.colors.textSecondary,
                           fontWeight: FontWeight.w600,
                         ),

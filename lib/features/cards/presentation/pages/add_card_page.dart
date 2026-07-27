@@ -95,7 +95,7 @@ class _AddCardPageState extends ConsumerState<AddCardPage> {
                           _iconFor(type),
                           size: 20,
                           color: active
-                              ? context.colors.textInverse
+                              ? context.colors.background
                               : context.colors.primary,
                         ),
                         const SizedBox(width: AppSpacing.md),
@@ -107,7 +107,7 @@ class _AddCardPageState extends ConsumerState<AddCardPage> {
                                 type.label,
                                 style: AppTextStyles.titleSmall.copyWith(
                                   color: active
-                                      ? context.colors.textInverse
+                                      ? context.colors.background
                                       : context.colors.textPrimary,
                                 ),
                               ),
@@ -116,7 +116,7 @@ class _AddCardPageState extends ConsumerState<AddCardPage> {
                                 _descriptionFor(type),
                                 style: AppTextStyles.bodySmall.copyWith(
                                   color: active
-                                      ? context.colors.textInverse.withValues(alpha: 0.75)
+                                      ? context.colors.background.withValues(alpha: 0.75)
                                       : context.colors.textSecondary,
                                 ),
                               ),
@@ -124,7 +124,7 @@ class _AddCardPageState extends ConsumerState<AddCardPage> {
                           ),
                         ),
                         if (active)
-                          Icon(Icons.check_circle_rounded, size: 20, color: context.colors.textInverse)
+                          Icon(Icons.check_circle_rounded, size: 20, color: context.colors.background)
                         else
                           Icon(Icons.radio_button_unchecked_rounded, size: 20, color: context.colors.textMuted),
                       ],

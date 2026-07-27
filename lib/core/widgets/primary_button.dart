@@ -51,7 +51,10 @@ class PrimaryButton extends StatelessWidget {
         color: context.colors.textPrimary,
         borderRadius: BorderRadius.circular(AppSpacing.radiusFull),
       );
-      foreground = context.colors.textInverse;
+      // NOT textInverse: that's fixed white for use on primaryGradient fills.
+      // This surface is textPrimary-colored (near-white in dark theme, near-black
+      // in light theme), so background is the color that actually contrasts here.
+      foreground = context.colors.background;
     } else {
       decoration = BoxDecoration(
         color: Colors.transparent,
