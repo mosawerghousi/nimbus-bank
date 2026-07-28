@@ -23,11 +23,14 @@ class LocaleNotifier extends Notifier<Locale> {
     if (locale == state) return;
     state = locale;
     final prefs = ref.read(sharedPreferencesProvider);
-    await prefs.setString(_prefsKey, locale.languageCode);
+    // Dari needs its country subtag persisted too (fa vs fa-AF), so store
+    // the full BCP-47 tag rather than just the language code.
+    await prefs.setString(_prefsKey, locale.toLanguageTag());
   }
 
   static Locale _decode(String? value) => switch (value) {
         'ar' => const Locale('ar'),
+        'fa' || 'fa-AF' || 'fa_AF' => const Locale('fa', 'AF'),
         _ => const Locale('en'),
       };
 }

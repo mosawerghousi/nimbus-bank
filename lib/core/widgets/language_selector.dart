@@ -6,9 +6,9 @@ import '../../app/theme/app_spacing.dart';
 import '../../app/theme/app_text_styles.dart';
 import '../extensions/context_extensions.dart';
 
-/// A two-way English / العربية segmented control backed by [localeProvider].
-/// Drop it into any settings/profile surface. Mirrors [ThemeModeSelector]'s
-/// structure exactly.
+/// A three-way English / العربية / دری segmented control backed by
+/// [localeProvider]. Drop it into any settings/profile surface. Mirrors
+/// [ThemeModeSelector]'s structure exactly.
 class LanguageSelector extends ConsumerWidget {
   const LanguageSelector({super.key});
 
@@ -37,6 +37,12 @@ class LanguageSelector extends ConsumerWidget {
             icon: Icons.translate_rounded,
             selected: locale.languageCode == 'ar',
             onTap: () => notifier.set(const Locale('ar')),
+          ),
+          _Segment(
+            label: context.strings.languageDari,
+            icon: Icons.language_rounded,
+            selected: locale.languageCode == 'fa',
+            onTap: () => notifier.set(const Locale('fa', 'AF')),
           ),
         ],
       ),

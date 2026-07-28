@@ -716,6 +716,8 @@ class AppStringsAr extends AppStrings {
   String get languageEnglish => 'English';
   @override
   String get languageArabic => 'العربية';
+  @override
+  String get languageDari => 'دری';
 
   // Theme mode selector
   @override

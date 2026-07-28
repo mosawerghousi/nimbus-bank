@@ -94,15 +94,21 @@ class MainShell extends StatelessWidget {
                           ),
                           if (active) ...[
                             const SizedBox(width: 6),
+                            // FittedBox (not Flexible+fade): a faded clip mid
+                            // Arabic/Dari word cuts across joined letterforms
+                            // and reads as garbled text instead of a clean
+                            // truncation, so longer translated labels shrink
+                            // to fit rather than clip.
                             Flexible(
-                              child: Text(
-                                label,
-                                maxLines: 1,
-                                softWrap: false,
-                                overflow: TextOverflow.fade,
-                                style: AppTextStyles.labelMedium.copyWith(
-                                  color: context.colors.textInverse,
-                                  fontWeight: FontWeight.w600,
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  label,
+                                  maxLines: 1,
+                                  style: AppTextStyles.labelMedium.copyWith(
+                                    color: context.colors.textInverse,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
                               ),
                             ),

@@ -26,7 +26,7 @@ class NimbusApp extends ConsumerWidget {
       // to en-US), so that ordering would permanently override the app's
       // own language switcher on the hosted web demo. Our locale wins.
       locale: locale,
-      supportedLocales: const [Locale('en'), Locale('ar')],
+      supportedLocales: const [Locale('en'), Locale('ar'), Locale('fa', 'AF')],
       localizationsDelegates: [
         AppStrings.delegate,
         ...GlobalMaterialLocalizations.delegates,

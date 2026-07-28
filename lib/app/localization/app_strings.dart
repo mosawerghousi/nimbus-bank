@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../features/home/domain/entities/account.dart';
 import '../../features/home/domain/entities/bank_card.dart';
 import 'app_strings_ar.dart';
+import 'app_strings_dari.dart';
 import 'app_strings_en.dart';
 
 /// Hand-rolled localization surface for Nimbus — same shape `flutter
@@ -428,6 +429,7 @@ abstract class AppStrings {
   // ---------------------------------------------------------------------
   String get languageEnglish;
   String get languageArabic;
+  String get languageDari;
 
   // ---------------------------------------------------------------------
   // Theme mode selector
@@ -476,13 +478,21 @@ class _AppStringsDelegate extends LocalizationsDelegate<AppStrings> {
 
   @override
   bool isSupported(Locale locale) =>
-      locale.languageCode == 'en' || locale.languageCode == 'ar';
+      locale.languageCode == 'en' ||
+      locale.languageCode == 'ar' ||
+      locale.languageCode == 'fa';
 
   @override
   Future<AppStrings> load(Locale locale) {
-    return SynchronousFuture<AppStrings>(
-      locale.languageCode == 'ar' ? const AppStringsAr() : const AppStringsEn(),
-    );
+    final AppStrings strings = switch (locale.languageCode) {
+      'ar' => const AppStringsAr(),
+      // Dari (Afghan Persian) is modeled as fa-AF — distinct wording from
+      // Iranian Farsi, so it gets its own implementation rather than
+      // reusing a generic 'fa' one.
+      'fa' => const AppStringsDari(),
+      _ => const AppStringsEn(),
+    };
+    return SynchronousFuture<AppStrings>(strings);
   }
 
   @override
